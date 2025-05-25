@@ -1,0 +1,14 @@
+<!-- filepath: [home.html](http://_vscodecontentref_/1) -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title>Home</title>
+</head>
+
+<body>
+    <div sec:authorize="isAuthenticated()">
+        Bienvenido <span sec:authentication="name"></span>
+</body>
+
+</html>
