@@ -1,53 +1,26 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <title>Iniciar sesión</title>
-    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 
 <body>
-    <div class="login-container">
-        <div class="login-box">
-            <h2>Iniciar sesión</h2>
-            <form th:action="@{/login}" method="post">
-                <div class="form-group">
-                    <label for="username">Usuario:</label>
-                    <input type="text" name="username" id="username" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Contraseña:</label>
-                    <div class="password-wrapper">
-                        <input type="password" name="password" id="password" required />
-                        <span class="toggle-password" onclick="togglePassword()">👁️</span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit">Entrar</button>
-                </div>
-
-                <div th:if="${param.error}">
-                    <p class="error-message">Usuario o contraseña incorrectos</p>
-                </div>
-            </form>
+    <h2>Iniciar sesión</h2>
+    <form th:action="@{/login}" method="post">
+        <div>
+            <label for="username">Usuario:</label>
+            <input type="text" id="username" name="username" required>
         </div>
-    </div>
-
-    <script>
-        function togglePassword() {
-            const pwd = document.getElementById('password');
-            const icon = document.querySelector('.toggle-password');
-            if (pwd.type === 'password') {
-                pwd.type = 'text';
-                icon.textContent = '🙈';
-            } else {
-                pwd.type = 'password';
-                icon.textContent = '👁️';
-            }
-        }
-    </script>
+        <div>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <button type="submit">Entrar</button>
+        </div>
+    </form>
 </body>
 
 </html>
