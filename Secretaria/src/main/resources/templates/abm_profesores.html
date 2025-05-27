@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Profesores</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-logo">Instituto</div>
+    <div class="navbar-links">
+      <a href="/">Inicio</a>
+      <a href="/alumnos">Alumnos</a>
+      <a href="/profesores">Profesores</a>
+      <a href="/logout">Cerrar sesión</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Gestión de Profesores</h2>
+    <a class="btn btn-editar">➕ Agregar Profesor</a>
+
+    <table>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>DNI</th>
+        <th>Teléfono</th>
+        <th>Email</th>
+        <th>Especialidad</th>
+        <th>Acciones</th>
+      </tr>
+      <tr>
+        <td>Carlos</td>
+        <td>López</td>
+        <td>22334455</td>
+        <td>3811234567</td>
+        <td>carlos@example.com</td>
+        <td>Matemática</td>
+        <td>
+          <a class="btn btn-editar">✏️ Editar</a>
+          <a class="btn btn-eliminar" href="#">🗑 Eliminar</a>
+        </td>
+      </tr>
+      <tr>
+        <td>María</td>
+        <td>Suárez</td>
+        <td>33445566</td>
+        <td>3819876543</td>
+        <td>maria@example.com</td>
+        <td>Lengua</td>
+        <td>
+          <a class="btn btn-editar">✏️ Editar</a>
+          <a class="btn btn-eliminar" href="#">🗑 Eliminar</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</body>
+
+</html>

@@ -31,17 +31,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**", "/images/**",
-                                "/webjars/**")
-                        .permitAll()
-                        // crear usuarios
-                        .anyRequest().authenticated())
+                        .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll() // Permitir
+                                                                                                                 // recursos
+                                                                                                                 // estáticos
+                        .anyRequest().authenticated()) // Requiere autenticación para todas las demás rutas
                 .formLogin(form -> form
-                        .loginPage("/login")
+                        .loginPage("/login") // Página personalizada de inicio de sesión
                         .permitAll())
-                .csrf(c -> c.disable())
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // URL para cerrar sesión
+                        .logoutSuccessUrl("/login?logout") // Redirige al login después del logout
+                        .invalidateHttpSession(true) // Invalida la sesión
+                        .deleteCookies("JSESSIONID")) // Borra las cookies de sesión
+                .csrf(c -> c.disable()) // Opcional: deshabilitar CSRF si es necesario
                 .exceptionHandling(e -> e
-                        .accessDeniedHandler(customAccessDeniedHandler()));
+                        .accessDeniedHandler(customAccessDeniedHandler())); // Manejo de acceso denegado
         return http.build();
     }
 
