@@ -13,9 +13,7 @@ public class UserModel {
 
     private String password;
 
-    private String rol; // Ejemplo: "ADMIN" o "USER"
-
-    // getters y setters
+    private String rol;
 
     public Long getId() {
         return id;

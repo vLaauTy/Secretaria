@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Materia</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Formulario de Materia</h2>
+
+        <form th:action="@{/materia/guardar}" th:object="${materia}" method="post">
+            <!-- ID oculto para edición -->
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="form-grid">
+                <!-- Datos básicos -->
+                <div class="form-group full-width">
+                    <label for="nombre">Nombre de la Materia <span class="required">*</span></label>
+                    <input type="text" id="nombre" th:field="*{nombre}" required
+                        placeholder="Ingrese el nombre de la materia">
+                </div>
+
+                <div class="form-group">
+                    <label for="anio">Año <span class="required">*</span></label>
+                    <input type="text" id="anio" th:field="*{anio}" required placeholder="Ej: 1°, 2°, 3°">
+                </div>
+
+                <div class="form-group">
+                    <label for="cargaHoraria">Carga Horaria (horas) <span class="required">*</span></label>
+                    <input type="number" id="cargaHoraria" th:field="*{cargaHoraria}" required min="1"
+                        placeholder="Horas semanales">
+                </div>
+
+                <div class="form-group">
+                    <label for="horaTotal">Hora Total <span class="required">*</span></label>
+                    <input type="text" id="horaTotal" th:field="*{horaTotal}" required
+                        placeholder="Total de horas en el período">
+                </div>
+
+                <div class="form-group">
+                    <label for="fechaAlta">Fecha de Alta <span class="required">*</span></label>
+                    <input type="date" id="fechaAlta" th:field="*{fechaAlta}" required>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="btn btn-primary">Guardar Materia</button>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

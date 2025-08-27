@@ -21,43 +21,57 @@
 
   <div class="container">
     <h2>Gestión de Profesores</h2>
-    <a class="btn btn-editar">➕ Agregar Profesor</a>
+    <a href="/profesores/nuevo" class="btn btn-editar">➕ Agregar Profesor</a>
 
-    <table>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>DNI</th>
-        <th>Teléfono</th>
-        <th>Email</th>
-        <th>Especialidad</th>
-        <th>Acciones</th>
-      </tr>
-      <tr>
-        <td>Carlos</td>
-        <td>López</td>
-        <td>22334455</td>
-        <td>3811234567</td>
-        <td>carlos@example.com</td>
-        <td>Matemática</td>
-        <td>
-          <a class="btn btn-editar">✏️ Editar</a>
-          <a class="btn btn-eliminar" href="#">🗑 Eliminar</a>
-        </td>
-      </tr>
-      <tr>
-        <td>María</td>
-        <td>Suárez</td>
-        <td>33445566</td>
-        <td>3819876543</td>
-        <td>maria@example.com</td>
-        <td>Lengua</td>
-        <td>
-          <a class="btn btn-editar">✏️ Editar</a>
-          <a class="btn btn-eliminar" href="#">🗑 Eliminar</a>
-        </td>
-      </tr>
-    </table>
+    <!-- Mensaje si no hay profesores -->
+    <div th:if="${profesores == null or #lists.isEmpty(profesores)}" class="alert">
+      <p>No hay profesores registrados en el sistema.</p>
+    </div>
+
+    <!-- Tabla de profesores -->
+    <div th:if="${profesores != null and not #lists.isEmpty(profesores)}">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>DNI</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="profesor : ${profesores}">
+            <td th:text="${profesor.id}"></td>
+            <td th:text="${profesor.nombre}"></td>
+            <td th:text="${profesor.apellido}"></td>
+            <td th:text="${profesor.dni}"></td>
+            <td th:text="${profesor.telefono}"></td>
+            <td th:text="${profesor.email}"></td>
+            <td class="acciones">
+              <a th:href="@{/profesores/detalle/{id}(id=${profesor.id})}" 
+                 class="btn btn-ver" 
+                 title="Ver detalles">
+                👁️ Ver
+              </a>
+              <a th:href="@{/profesores/editar/{id}(id=${profesor.id})}" 
+                 class="btn btn-editar" 
+                 title="Editar profesor">
+                ✏️ Editar
+              </a>
+              <a th:href="@{/profesores/eliminar/{id}(id=${profesor.id})}" 
+                 class="btn btn-eliminar" 
+                 title="Eliminar profesor"
+                 onclick="return confirm('¿Está seguro de que desea eliminar este profesor?')">
+                🗑️ Eliminar
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </body>

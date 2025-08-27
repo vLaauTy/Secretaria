@@ -195,6 +195,15 @@ a.btn {
     text-decoration: none;
     color: white;
     margin-right: 6px;
+    transition: background-color 0.3s;
+}
+
+.btn-ver {
+    background-color: #17a2b8;
+}
+
+.btn-ver:hover {
+    background-color: #138496;
 }
 
 .btn-editar {
@@ -211,4 +220,21 @@ a.btn {
 
 .btn-eliminar:hover {
     background-color: #c82333;
+}
+
+/* Columna de acciones */
+.acciones {
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* Mensaje de alerta */
+.alert {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    color: #6c757d;
 }

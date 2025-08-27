@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Materias</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-logo">Instituto</div>
+    <div class="navbar-links">
+      <a href="/">Inicio</a>
+      <a href="/alumnos">Alumnos</a>
+      <a href="/profesores">Profesores</a>
+      <a href="/materias">Materias</a>
+      <a href="/logout">Cerrar sesión</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Gestión de Materias</h2>
+    <a href="/materias/nuevo" class="btn btn-editar">➕ Agregar Materia</a>
+
+    <!-- Mensaje si no hay materias -->
+    <div th:if="${materias == null or #lists.isEmpty(materias)}" class="alert">
+      <p>No hay materias registradas en el sistema.</p>
+    </div>
+
+    <!-- Tabla de materias -->
+    <div th:if="${materias != null and not #lists.isEmpty(materias)}">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Año</th>
+            <th>Carga Horaria</th>
+            <th>Hora Total</th>
+            <th>Fecha de Alta</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="materia : ${materias}">
+            <td th:text="${materia.id}"></td>
+            <td th:text="${materia.nombre}"></td>
+            <td th:text="${materia.anio}"></td>
+            <td th:text="${materia.cargaHoraria}"></td>
+            <td th:text="${materia.horaTotal}"></td>
+            <td th:text="${materia.fechaAlta}"></td>
+            <td class="acciones">
+              <a th:href="@{/materias/detalle/{id}(id=${materia.id})}" 
+                 class="btn btn-ver" 
+                 title="Ver detalles">
+                👁️ Ver
+              </a>
+              <a th:href="@{/materias/editar/{id}(id=${materia.id})}" 
+                 class="btn btn-editar" 
+                 title="Editar materia">
+                ✏️ Editar
+              </a>
+              <a th:href="@{/materias/eliminar/{id}(id=${materia.id})}" 
+                 class="btn btn-eliminar" 
+                 title="Eliminar materia"
+                 onclick="return confirm('¿Está seguro de que desea eliminar esta materia?')">
+                🗑️ Eliminar
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+
+</html>

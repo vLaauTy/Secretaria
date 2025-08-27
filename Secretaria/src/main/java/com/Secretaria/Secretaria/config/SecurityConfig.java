@@ -67,7 +67,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login?logout") // Redirige al login después del logout
                         .invalidateHttpSession(true) // Invalida la sesión
                         .deleteCookies("JSESSIONID")) // Borra las cookies de sesión
-                .csrf(c -> c.disable()) // Opcional: deshabilitar CSRF si es necesario
+                .csrf(c -> c.disable())
                 .exceptionHandling(e -> e
                         .accessDeniedHandler(customAccessDeniedHandler())); // Manejo de acceso denegado
         return http.build();
