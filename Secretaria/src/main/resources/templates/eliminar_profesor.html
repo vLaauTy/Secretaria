@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar Profesor</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-logo">Instituto</div>
+    <div class="navbar-links">
+        <a href="/">Inicio</a>
+        <a href="/profesores">Volver a Profesores</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h2>Eliminar Profesor por DNI</h2>
+
+    <!-- Mensajes de éxito o error -->
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <form th:action="@{/profesores/eliminar}" method="post">
+        <div class="form-group">
+            <label for="dni">DNI del Profesor:</label>
+            <input type="text" id="dni" name="dni" class="form-control" placeholder="Ingrese el DNI" required>
+        </div>
+        <button type="submit" class="btn btn-eliminar">Eliminar Profesor</button>
+    </form>
+</div>
+
+</body>
+</html>

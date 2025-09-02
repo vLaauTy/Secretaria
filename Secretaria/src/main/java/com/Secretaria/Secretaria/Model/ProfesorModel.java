@@ -1,6 +1,9 @@
 package com.Secretaria.Secretaria.Model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "profesores")
@@ -57,6 +60,13 @@ public class ProfesorModel {
 
     @Column(nullable = false, unique = true)
     private Boolean certificadoAF;
+
+    @Column(nullable = false)
+    private String sexo;
+
+    // Campo calculado - no se persiste en la base de datos
+    @Transient
+    private Integer edad;
 
     // Getters y Setters
     public Long getId() {
@@ -194,5 +204,26 @@ public class ProfesorModel {
 
     public void setCertificadoAF(Boolean certificadoAF) {
         this.certificadoAF = certificadoAF;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public Integer getEdad() {
+        if (fechaNacimiento != null && !fechaNacimiento.isEmpty()) {
+            try {
+                LocalDate fechaNac = LocalDate.parse(fechaNacimiento, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate ahora = LocalDate.now();
+                return Period.between(fechaNac, ahora).getYears();
+            } catch (Exception e) {
+                return null; // Si hay error en el formato de fecha
+            }
+        }
+        return null;
     }
 }

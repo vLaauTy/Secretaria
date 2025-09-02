@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Profesores</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-logo">Instituto</div>
+    <div class="navbar-links">
+      <a href="/">Inicio</a>
+      <a href="/alumnos">Alumnos</a>
+      <a href="/profesores">Profesores</a>
+      <a href="/logout">Cerrar sesión</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Gestión de Profesores</h2>
+    <a href="/profesores/nuevo" class="btn btn-editar">➕ Agregar Profesor</a>
+
+    <!-- Filtros -->
+    <div class="filtros-container">
+      <form method="get" action="/profesores">
+        <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+          <!-- Filtro por sexo -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label for="filtroSexo" style="font-weight: bold; color: #333;">Sexo:</label>
+            <select id="filtroSexo" name="sexo"
+              style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; min-width: 120px;">
+              <option value="" th:selected="${param.sexo == null or param.sexo == ''}">Cualquiera</option>
+              <option value="Hombre" th:selected="${param.sexo == 'Hombre'}">Hombre</option>
+              <option value="Mujer" th:selected="${param.sexo == 'Mujer'}">Mujer</option>
+            </select>
+          </div>
+
+          <!-- Filtro por edad -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label style="font-weight: bold; color: #333;">Edad:</label>
+            <input type="number" name="edadMin" placeholder="Mín" min="18" max="100" th:value="${param.edadMin}"
+              style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 70px;">
+            <span style="color: #666;">-</span>
+            <input type="number" name="edadMax" placeholder="Máx" min="18" max="100" th:value="${param.edadMax}"
+              style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 70px;">
+            <span style="color: #666; font-size: 12px;">años</span>
+          </div>
+
+          <!-- Filtro por DNI -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label for="filtroDni" style="font-weight: bold; color: #333;">DNI:</label>
+            <input type="text" id="filtroDni" name="dni" placeholder="Buscar por DNI" th:value="${param.dni}"
+              style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; min-width: 150px;"
+              maxlength="8" pattern="[0-9]*" title="Ingrese números del DNI">
+          </div>
+
+          <!-- Botones -->
+          <div style="display: flex; gap: 8px;">
+            <button type="submit" class="btn btn-ver">🔍 Filtrar</button>
+            <a href="/profesores" class="btn btn-secondary">🔄 Limpiar</a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Mensaje si no hay profesores -->
+    <div th:if="${profesores == null or #lists.isEmpty(profesores)}" class="alert">
+      <p>No hay profesores registrados en el sistema.</p>
+    </div>
+
+    <!-- Tabla de profesores -->
+    <div th:if="${profesores != null and not #lists.isEmpty(profesores)}">
+      <!-- Contador de resultados -->
+      <div style="margin-bottom: 15px; color: #6c757d; font-style: italic;">
+        <span th:text="'Mostrando ' + ${#lists.size(profesores)} + ' profesor(es) encontrado(s)'"></span>
+        <span th:if="${not #strings.isEmpty(param.sexo) or not #strings.isEmpty(param.edadMin) or not #strings.isEmpty(param.edadMax) or not #strings.isEmpty(param.dni)}" 
+              style="color: #666; font-size: 14px; margin-left: 10px;">
+          | Filtros activos:
+          <span th:if="${not #strings.isEmpty(param.sexo)}" style="background: #e3f2fd; padding: 2px 6px; border-radius: 3px; margin: 0 2px;">
+            Sexo: [[${param.sexo}]]
+          </span>
+          <span th:if="${not #strings.isEmpty(param.edadMin) or not #strings.isEmpty(param.edadMax)}" style="background: #f3e5f5; padding: 2px 6px; border-radius: 3px; margin: 0 2px;">
+            Edad: 
+            <span th:if="${not #strings.isEmpty(param.edadMin)}">[[${param.edadMin}]]</span>
+            <span th:if="${not #strings.isEmpty(param.edadMin) and not #strings.isEmpty(param.edadMax)}">-</span>
+            <span th:if="${not #strings.isEmpty(param.edadMax)}">[[${param.edadMax}]]</span> años
+          </span>
+          <span th:if="${not #strings.isEmpty(param.dni)}" style="background: #e8f5e8; padding: 2px 6px; border-radius: 3px; margin: 0 2px;">
+            DNI: [[${param.dni}]]
+          </span>
+        </span>
+      </div>
+      Mostrando todos los profesores
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>DNI</th>
+          <th>Teléfono</th>
+          <th>Email</th>
+          <th>Sexo</th>
+          <th>Edad</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="profesor : ${profesores}">
+          <td th:text="${profesor.id}"></td>
+          <td th:text="${profesor.nombre}"></td>
+          <td th:text="${profesor.apellido}"></td>
+          <td th:text="${profesor.dni}"></td>
+          <td th:text="${profesor.telefono}"></td>
+          <td th:text="${profesor.email}"></td>
+          <td th:text="${profesor.sexo}"></td>
+          <td th:text="${profesor.edad != null ? profesor.edad + ' años' : 'N/A'}"></td>
+          <td class="acciones">
+            <a th:href="@{/profesores/detalle/{id}(id=${profesor.id})}" class="btn btn-ver" title="Ver detalles">
+              👁️ Ver
+            </a>
+            <a th:href="@{/profesores/editar/{id}(id=${profesor.id})}" class="btn btn-editar" title="Editar profesor">
+              ✏️ Editar
+            </a>
+            <a th:href="@{/profesores/eliminar/{id}(id=${profesor.id})}" class="btn btn-eliminar"
+              title="Eliminar profesor" onclick="return confirm('¿Está seguro de que desea eliminar este profesor?')">
+              🗑️ Eliminar
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+
+</body>
+
+</html>

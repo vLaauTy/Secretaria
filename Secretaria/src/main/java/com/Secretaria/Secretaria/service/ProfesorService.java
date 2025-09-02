@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Secretaria.Secretaria.Model.ProfesorModel;
 import com.Secretaria.Secretaria.repository.ProfesorRepository;
@@ -16,7 +17,7 @@ public class ProfesorService {
         this.repo = repo;
     }
 
-    public List<ProfesorModel> findAll() {
+    public List<ProfesorModel> listarTodosLosProfesores() {
         return repo.findAll();
     }
 
@@ -30,6 +31,20 @@ public class ProfesorService {
 
     public void deleteById(Long id) {
         repo.deleteById(id);
+    }
+
+    public void guardarProfesor(ProfesorModel profesor) {
+        repo.save(profesor);
+    }
+
+    @Transactional
+    public boolean eliminarProfesorPorDni(String dni) {
+        Optional<ProfesorModel> profesor = repo.findByDni(dni);
+        if (profesor.isPresent()) {
+            repo.deleteByDni(dni);
+            return true;
+        }
+        return false;
     }
 
 }
