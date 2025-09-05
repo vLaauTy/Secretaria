@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface ProfesorRepository extends JpaRepository<ProfesorModel, Long> {
     Optional<ProfesorModel> findByDni(String dni);
+
     void deleteByDni(String dni);
 }

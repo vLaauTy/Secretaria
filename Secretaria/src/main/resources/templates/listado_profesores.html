@@ -21,7 +21,6 @@
 
   <div class="container">
     <h2>Gestión de Profesores</h2>
-    <a href="/profesores/nuevo" class="btn btn-editar">➕ Agregar Profesor</a>
 
     <!-- Filtros -->
     <div class="filtros-container">
@@ -53,14 +52,14 @@
           <div style="display: flex; align-items: center; gap: 8px;">
             <label for="filtroDni" style="font-weight: bold; color: #333;">DNI:</label>
             <input type="text" id="filtroDni" name="dni" placeholder="Buscar por DNI" th:value="${param.dni}"
-              style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; min-width: 150px;"
-              maxlength="8" pattern="[0-9]*" title="Ingrese números del DNI">
+              style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; min-width: 150px;" maxlength="8"
+              pattern="[0-9]*" title="Ingrese números del DNI">
           </div>
 
           <!-- Botones -->
           <div style="display: flex; gap: 8px;">
             <button type="submit" class="btn btn-ver">🔍 Filtrar</button>
-            <a href="/profesores" class="btn btn-secondary">🔄 Limpiar</a>
+            <a href="/profesores" class="btn btn-ver">🔄 Limpiar</a>
           </div>
         </div>
       </form>
@@ -76,24 +75,27 @@
       <!-- Contador de resultados -->
       <div style="margin-bottom: 15px; color: #6c757d; font-style: italic;">
         <span th:text="'Mostrando ' + ${#lists.size(profesores)} + ' profesor(es) encontrado(s)'"></span>
-        <span th:if="${not #strings.isEmpty(param.sexo) or not #strings.isEmpty(param.edadMin) or not #strings.isEmpty(param.edadMax) or not #strings.isEmpty(param.dni)}" 
-              style="color: #666; font-size: 14px; margin-left: 10px;">
+        <span
+          th:if="${not #strings.isEmpty(param.sexo) or not #strings.isEmpty(param.edadMin) or not #strings.isEmpty(param.edadMax) or not #strings.isEmpty(param.dni)}"
+          style="color: #666; font-size: 14px; margin-left: 10px;">
           | Filtros activos:
-          <span th:if="${not #strings.isEmpty(param.sexo)}" style="background: #e3f2fd; padding: 2px 6px; border-radius: 3px; margin: 0 2px;">
+          <span th:if="${not #strings.isEmpty(param.sexo)}"
+            style="background: #e3f2fd; padding: 2px 6px; border-radius: 3px; margin: 0 2px;">
             Sexo: [[${param.sexo}]]
           </span>
-          <span th:if="${not #strings.isEmpty(param.edadMin) or not #strings.isEmpty(param.edadMax)}" style="background: #f3e5f5; padding: 2px 6px; border-radius: 3px; margin: 0 2px;">
-            Edad: 
+          <span th:if="${not #strings.isEmpty(param.edadMin) or not #strings.isEmpty(param.edadMax)}"
+            style="background: #f3e5f5; padding: 2px 6px; border-radius: 3px; margin: 0 2px;">
+            Edad:
             <span th:if="${not #strings.isEmpty(param.edadMin)}">[[${param.edadMin}]]</span>
             <span th:if="${not #strings.isEmpty(param.edadMin) and not #strings.isEmpty(param.edadMax)}">-</span>
             <span th:if="${not #strings.isEmpty(param.edadMax)}">[[${param.edadMax}]]</span> años
           </span>
-          <span th:if="${not #strings.isEmpty(param.dni)}" style="background: #e8f5e8; padding: 2px 6px; border-radius: 3px; margin: 0 2px;">
+          <span th:if="${not #strings.isEmpty(param.dni)}"
+            style="background: #e8f5e8; padding: 2px 6px; border-radius: 3px; margin: 0 2px;">
             DNI: [[${param.dni}]]
           </span>
         </span>
       </div>
-      Mostrando todos los profesores
     </div>
 
     <table>
@@ -124,12 +126,6 @@
             <a th:href="@{/profesores/detalle/{id}(id=${profesor.id})}" class="btn btn-ver" title="Ver detalles">
               👁️ Ver
             </a>
-            <a th:href="@{/profesores/editar/{id}(id=${profesor.id})}" class="btn btn-editar" title="Editar profesor">
-              ✏️ Editar
-            </a>
-            <a th:href="@{/profesores/eliminar/{id}(id=${profesor.id})}" class="btn btn-eliminar"
-              title="Eliminar profesor" onclick="return confirm('¿Está seguro de que desea eliminar este profesor?')">
-              🗑️ Eliminar
             </a>
           </td>
         </tr>

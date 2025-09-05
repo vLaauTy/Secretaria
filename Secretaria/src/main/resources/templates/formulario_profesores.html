@@ -13,6 +13,11 @@
     <div class="form-container">
         <h2>Formulario de Profesor</h2>
 
+        <!-- Mensaje de error por DNI duplicado -->
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
         <form th:action="@{/profesor/guardar}" th:object="${profesor}" method="post">
             <!-- ID oculto para edición -->
             <input type="hidden" th:field="*{id}" />

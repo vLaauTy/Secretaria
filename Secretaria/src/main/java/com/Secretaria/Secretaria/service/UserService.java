@@ -26,4 +26,26 @@ public class UserService implements UserDetailsService {
                 usuario.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + usuario.getRol())));
     }
+
+    public boolean autenticar(String username, String password) {
+        UserModel usuario = userRepository.findByUsername(username).orElse(null);
+        if (usuario == null) return false;
+        if (usuario.isBloqueado()) return false;
+        if (usuario.getPassword().equals(password)) {
+            usuario.setIntentosFallidos(0);
+            userRepository.save(usuario);
+            return true;
+        } else {
+            usuario.setIntentosFallidos(usuario.getIntentosFallidos() + 1);
+            if (usuario.getIntentosFallidos() >= 3) {
+                usuario.setBloqueado(true);
+            }
+            userRepository.save(usuario);
+            return false;
+        }
+    }
+
+    public UserModel findByUsername(String username) {
+        return userRepository.findByUsername(username).orElse(null);
+    }
 }

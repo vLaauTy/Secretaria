@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.Secretaria.Secretaria.Model.ProfesorModel;
 import com.Secretaria.Secretaria.service.ProfesorService;
@@ -24,7 +25,8 @@ public class ProfesorController {
     private ProfesorService profesorService;
 
     @GetMapping("/profesores")
-    public String profesores(@RequestParam(required = false) String sexo,
+    public String profesores(
+            @RequestParam(required = false) String sexo,
             @RequestParam(required = false) Integer edadMin,
             @RequestParam(required = false) Integer edadMax,
             @RequestParam(required = false) String dni,
@@ -69,12 +71,20 @@ public class ProfesorController {
     @GetMapping("/profesores/nuevo")
     public String nuevoProfesor(Model model) {
         model.addAttribute("profesor", new ProfesorModel());
-        return "formulario_profesor"; // Nombre del archivo HTML en templates
+        return "formulario_profesores"; // Nombre del archivo HTML en templates
     }
 
     @PostMapping("/profesor/guardar")
-    public String guardarProfesor(@ModelAttribute("profesor") ProfesorModel profesor, Model model) {
+    public String guardarProfesor(@ModelAttribute("profesor") ProfesorModel profesor, Model model,
+            RedirectAttributes redirectAttributes) {
+        // Validar si ya existe un profesor con el mismo DNI
+        if (profesorService.findByDni(profesor.getDni()).isPresent() && profesor.getId() == null) {
+            model.addAttribute("profesor", profesor);
+            model.addAttribute("errorMessage", "Ya existe un profesor con ese DNI.");
+            return "formulario_profesores";
+        }
         profesorService.save(profesor);
+        redirectAttributes.addFlashAttribute("successMessage", "Profesor guardado exitosamente.");
         return "redirect:/profesores";
     }
 
@@ -84,23 +94,41 @@ public class ProfesorController {
         if (profesor.isPresent()) {
             model.addAttribute("profesor", profesor.get());
         }
-        return "redirect:/profesores";
+        return "detalle_profesor";
     }
 
-    @GetMapping("/profesores/editar/{id}")
-    public String editarProfesor(@PathVariable Long id, Model model) {
-        Optional<ProfesorModel> profesor = profesorService.findById(id);
-        if (profesor.isPresent()) {
-            model.addAttribute("profesor", profesor.get());
-        } else {
-            model.addAttribute("profesor", new ProfesorModel());
+    @GetMapping("/profesores/eliminarprofesor")
+    public String buscarProfesorParaEliminar(@RequestParam(value = "dni", required = false) String dni, Model model) {
+        if (dni != null && !dni.isEmpty()) {
+            Optional<ProfesorModel> profesor = profesorService.findByDni(dni);
+            if (profesor.isPresent()) {
+                model.addAttribute("profesor", profesor.get());
+            } else {
+                model.addAttribute("errorMessage", "No se encontró ningún profesor con el DNI " + dni + ".");
+            }
         }
-        return "formulario_profesor";
+        return "eliminar_profesor";
     }
 
-    @GetMapping("/profesores/eliminar/{id}")
-    public String eliminarProfesor(@PathVariable Long id, Model model) {
-        profesorService.deleteById(id);
-        return "redirect:/profesores";
+    @PostMapping("/profesores/eliminarprofesor")
+    public String eliminarProfesorConfirmado(@RequestParam String dni, RedirectAttributes redirectAttributes) {
+        profesorService.eliminarProfesorPorDni(dni);
+        redirectAttributes.addFlashAttribute("successMessage",
+                "Profesor con DNI " + dni + " eliminado exitosamente.");
+        return "redirect:/profesores/eliminarprofesor";
     }
+
+    @GetMapping("/profesores/editarprofesor")
+    public String buscarProfesorParaEditar(@RequestParam(value = "dni", required = false) String dni, Model model) {
+        if (dni != null && !dni.isEmpty()) {
+            Optional<ProfesorModel> profesor = profesorService.findByDni(dni);
+            if (profesor.isPresent()) {
+                model.addAttribute("profesor", profesor.get());
+            } else {
+                model.addAttribute("errorMessage", "No se encontró ningún profesor con el DNI " + dni + ".");
+            }
+        }
+        return "editar_profesor";
+    }
+
 }
