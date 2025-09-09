@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${Alumno.id} != null ? 'Editar Alumno' : 'Nuevo Alumno'">Formulario Alumno</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<h1 th:text="${Alumno.id} != null ? 'Editar Alumno' : 'Nuevo Alumno'"></h1>
+
+<form th:action="@{/Alumno/guardar}" th:object="${Alumno}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <!-- ===== DATOS PERSONALES ===== -->
+    <h2>Datos Personales</h2>
+    NRO LEGAJO:<input type="number" th:field="*{nroLeg}" required /><br/>
+    Nombre: <input type="text" th:field="*{DA_Nom}" required/><br/>
+    Apellido: <input type="text" th:field="*{DA_Ape}" required/><br/>
+    Sexo:
+    <select th:field="*{DA_Sex}">
+        <option value="Masculino" th:selected="${Alumno.DA_Sex == 'Masculino'}">Masculino</option>
+        <option value="Femenino" th:selected="${Alumno.DA_Sex == 'Femenino'}">Femenino</option>
+    </select><br/>
+    Tipo Documento: <input type="text" th:field="*{DA_TipDoc}"/><br/>
+    dni: <input type="text" th:field="*{dni}"/><br/>
+    Estado Civil: <input type="text" th:field="*{DA_EstCiv}"/><br/>
+    Fecha Nacimiento: <input type="date" th:field="*{DA_FeNa}"/><br/>
+    Localidad Nacimiento: <input type="text" th:field="*{DA_LocNa}"/><br/>
+    País Nacimiento: <input type="text" th:field="*{DA_PaisNa}"/><br/>
+    Calle: <input type="text" th:field="*{DA_DomCalle}"/><br/>
+    Número: <input type="number" th:field="*{DA_DomNro}"/><br/>
+    Piso: <input type="number" th:field="*{DA_DomPiso}"/><br/>
+    Dpto: <input type="text" th:field="*{DA_DomDpto}"/><br/>
+    Provincia: <input type="text" th:field="*{DA_Prov}"/><br/>
+    Distrito: <input type="text" th:field="*{DA_Distri}"/><br/>
+    Localidad: <input type="text" th:field="*{DA_Loc}"/><br/>
+    Código Postal: <input type="number" th:field="*{DA_CodPost}"/><br/>
+    Teléfono Fijo: <input type="text" th:field="*{DA_TelFij}"/><br/>
+    Celular: <input type="text" th:field="*{DA_Cel}"/><br/>
+    Correo: <input type="email" th:field="*{DA_Correo}"/><br/>
+
+    <!-- ===== TÍTULO SECUNDARIO ===== -->
+    <h2>Título Secundario</h2>
+    <label>¿Cuenta con título secundario?</label>
+    <input type="checkbox" th:field="*{F_TitSec}"/><br/>
+
+    <div th:if="${Alumno.F_TitSec == false}">
+        Cantidad de materias adeudadas: <input type="number" th:field="*{F_TitSecNo}"/><br/>
+        Nombre de materias adeudadas: <input type="text" th:field="*{F_TitSecNo2}"/><br/>
+    </div>
+
+    <div th:if="${Alumno.F_TitSec == true}">
+        Título: <input type="text" th:field="*{F_TitSecSi_Titulo}"/><br/>
+        Orientación: <input type="text" th:field="*{F_TitSecSi_Orientacion}"/><br/>
+        Institución que otorgó: <input type="text" th:field="*{F_TitSecSi_Otorga}"/><br/>
+        Año egreso: <input type="number" th:field="*{F_TitSecSi_ano}"/><br/>
+        Promedio: <input type="number" step="0.01" th:field="*{F_TitSecSi_Promedio}"/><br/>
+        Título en trámite: <input type="checkbox" th:field="*{F_TitSecSi_Tramite}"/><br/>
+    </div>
+
+    <!-- ===== DATOS LABORALES ===== -->
+    <h2>Datos Laborales</h2>
+    ¿Trabaja?: <input type="checkbox" th:field="*{Trabaja}"/><br/>
+    Lista de trabajos: <input type="text" th:field="*{Tra_list}"/><br/>
+    Horas de trabajo: <input type="text" th:field="*{Tra_hor}"/><br/>
+    ¿Es pensionado o jubilado?: <input type="checkbox" th:field="*{Tra_PeJu}"/><br/>
+    Trabaja en establecimiento educativo?: <input type="text" th:field="*{Tra_Edu}"/><br/>
+    Nivel desempeño: <input type="text" th:field="*{Tra_Edu_Desempeno}"/><br/>
+    Tipo de gestión: <input type="text" th:field="*{Tra_Edu_Gestion}"/><br/>
+
+    <!-- ===== SITUACIÓN FAMILIAR ===== -->
+    <h2>Situación Familiar</h2>
+    Vive solo?: <input type="checkbox" th:field="*{SF_Solo}"/><br/>
+    Con quien vive: <input type="text" th:field="*{SF_SoloNo}"/><br/>
+    Familiares a cargo?: <input type="checkbox" th:field="*{SF_FCargo}"/><br/>
+    A quien tiene a cargo: <input type="text" th:field="*{SF_FCargoSi}"/><br/>
+
+    <!-- ===== BECAS / PLANES ===== -->
+    <h2>Becas / Planes</h2>
+    Tipo de beca/plan: <input type="text" th:field="*{BePlPr}"/><br/>
+    Otro: <input type="text" th:field="*{BePlPrOtro}"/><br/>
+
+    <!-- ===== PRÁCTICAS CULTURALES ===== -->
+    <h2>Prácticas Culturales</h2>
+    Escucha radio: <input type="checkbox" th:field="*{PCC_Radio}"/><br/>
+    Mira televisión: <input type="checkbox" th:field="*{PCC_Tele}"/><br/>
+    Asiste a teatro: <input type="checkbox" th:field="*{PCC_Teatro}"/><br/>
+    Asiste a museo: <input type="checkbox" th:field="*{PCC_Museo}"/><br/>
+    Asiste a conciertos: <input type="checkbox" th:field="*{PCC_Conci}"/><br/>
+    Asiste a recitales: <input type="checkbox" th:field="*{PCC_Recit}"/><br/>
+    Realiza lecturas frecuentes: <input type="checkbox" th:field="*{PCC_LecFr}"/><br/>
+    Tipo de lectura: <input type="text" th:field="*{PCC_LecFrSi}"/><br/>
+    Otras prácticas culturales: <input type="text" th:field="*{PCC_Otro}"/><br/>
+
+    <button type="submit">Guardar</button>
+    <a th:href="@{/Alumnos}">Cancelar</a>
+</form>
+</body>
+</html>

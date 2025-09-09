@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle Alumno</title>
+</head>
+<body>
+<h1>Detalle Alumno</h1>
+
+<p><strong>ID:</strong> <span th:text="${Alumno.id}"></span></p>
+<p><strong>Nombre:</strong> <span th:text="${Alumno.DA_Nom}"></span></p>
+<p><strong>Apellido:</strong> <span th:text="${Alumno.DA_Ape}"></span></p>
+<p><strong>Sexo:</strong> <span th:text="${Alumno.DA_Sex}"></span></p>
+<p><strong>DNI:</strong> <span th:text="${Alumno.dni}"></span></p>
+<p><strong>Edad:</strong> <span th:text="${Alumno.edad}"></span></p>
+<p><strong>Correo:</strong> <span th:text="${Alumno.DA_Correo}"></span></p>
+
+<a th:href="@{/Alumnos}">Volver al listado</a>
+<a th:href="@{/Alumnos/editar/{id}(id=${Alumno.ID})}">Editar</a>
+</body>
+</html>
