@@ -176,11 +176,11 @@ public class AlumnoModel {
         this.ano_lec = ano_lec;
     }
 
-    public int getnroLeg() {
+    public int getNroLeg() {
         return nroLeg;
     }
 
-    public void setnroLeg(int nroLeg) {
+    public void setNroLeg(int nroLeg) {
         this.nroLeg = nroLeg;
     }
 
@@ -204,8 +204,8 @@ public class AlumnoModel {
         return dni;
     }
 
-    public void setDni(String Dni) {
-        Dni = dni;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getDA_EstCiv() {

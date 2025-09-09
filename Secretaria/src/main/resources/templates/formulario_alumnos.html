@@ -8,12 +8,23 @@
 <body>
 <h1 th:text="${Alumno.id} != null ? 'Editar Alumno' : 'Nuevo Alumno'"></h1>
 
-<form th:action="@{/Alumno/guardar}" th:object="${Alumno}" method="post">
+<form th:action="@{/alumno/guardar}" th:object="${Alumno}" method="post">
     <input type="hidden" th:field="*{id}"/>
 
     <!-- ===== DATOS PERSONALES ===== -->
     <h2>Datos Personales</h2>
+    Año Lectivo: <input type="number" th:field="*{ano_lec}" required value="2025"/><br/>
     NRO LEGAJO:<input type="number" th:field="*{nroLeg}" required /><br/>
+    Carrera: 
+    <select th:field="*{carrera}" required>
+        <option value="">Seleccionar carrera</option>
+        <option value="101">Ingeniería en Sistemas</option>
+        <option value="102">Licenciatura en Informática</option>
+        <option value="103">Técnico en Programación</option>
+        <option value="104">Analista de Sistemas</option>
+        <option value="105">Ingeniería en Software</option>
+        <option value="106">Licenciatura en Ciencias de la Computación</option>
+    </select><br/>
     Nombre: <input type="text" th:field="*{DA_Nom}" required/><br/>
     Apellido: <input type="text" th:field="*{DA_Ape}" required/><br/>
     Sexo:
@@ -93,7 +104,7 @@
     Otras prácticas culturales: <input type="text" th:field="*{PCC_Otro}"/><br/>
 
     <button type="submit">Guardar</button>
-    <a th:href="@{/Alumnos}">Cancelar</a>
+    <a th:href="@{/alumnos}">Cancelar</a>
 </form>
 </body>
 </html>
