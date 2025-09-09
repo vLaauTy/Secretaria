@@ -22,7 +22,7 @@ public class ProfesorModel {
     @Column(nullable = false, unique = true)
     private String dni;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String domicilio;
 
     @Column
@@ -31,34 +31,34 @@ public class ProfesorModel {
     @Column
     private String piso;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String CodigoPostal;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String localidad;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String partida;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String telefono;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String fechaNacimiento;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String lugarNacimiento;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String pais;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Integer foja;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Boolean certificadoAF;
 
     @Column(nullable = false)
@@ -130,8 +130,8 @@ public class ProfesorModel {
         return CodigoPostal;
     }
 
-    public void setCodigoPostal(String codigoPostal) {
-        CodigoPostal = codigoPostal;
+    public void setCodigoPostal(String CodigoPostal) {
+        this.CodigoPostal = CodigoPostal;
     }
 
     public String getLocalidad() {

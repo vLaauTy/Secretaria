@@ -20,51 +20,10 @@ import java.util.stream.Collectors;
 public class WebController {
 
     @Autowired(required = false)
-    private ProfesorService profesorService;
 
     @GetMapping("/")
     public String menu(Model model) {
         return "menu";
-    }
-
-    @GetMapping("/profesores")
-    public String profesores(@RequestParam(required = false) String dni, Model model) {
-        if (profesorService == null) {
-            model.addAttribute("profesores", Collections.emptyList());
-            model.addAttribute("errorMessage", "El servicio de profesores no está disponible.");
-            return "abm_profesores";
-        }
-        
-        List<ProfesorModel> profesores = profesorService.listarTodosLosProfesores();
-
-        if (dni != null && !dni.trim().isEmpty()) {
-            profesores = profesores.stream()
-                    .filter(p -> p.getDni().equalsIgnoreCase(dni.trim()))
-                    .collect(Collectors.toList());
-        }
-
-        model.addAttribute("profesores", profesores);
-        return "abm_profesores";
-    }
-
-    @GetMapping("/profesores/eliminar")
-    public String mostrarFormularioEliminar() {
-        return "eliminar_profesor";
-    }
-
-    @PostMapping("/profesores/eliminar")
-    public String eliminarProfesor(@RequestParam String dni, RedirectAttributes redirectAttributes) {
-         if (profesorService == null) {
-            redirectAttributes.addFlashAttribute("errorMessage", "El servicio de profesores no está disponible.");
-            return "redirect:/profesores/eliminar";
-        }
-        boolean eliminado = profesorService.eliminarProfesorPorDni(dni);
-        if (eliminado) {
-            redirectAttributes.addFlashAttribute("successMessage", "Profesor con DNI " + dni + " eliminado exitosamente.");
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "No se encontró ningún profesor con el DNI " + dni + ".");
-        }
-        return "redirect:/profesores/eliminar";
     }
 
     @GetMapping("/menuprofesor")
@@ -77,8 +36,4 @@ public class WebController {
         return "abm_profesores";
     }
 
-    @GetMapping("/eliminarprofesor")
-    public String eliminarProfesor(Model model) {
-        return "eliminar_profesor";
-    }
 }

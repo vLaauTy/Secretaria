@@ -15,6 +15,12 @@ public class UserModel {
 
     private String rol;
 
+    @Column(name = "intentos_fallidos", nullable = false)
+    private int intentosFallidos = 0;
+
+    @Column(name = "bloqueado", nullable = false)
+    private boolean bloqueado = false;
+
     public Long getId() {
         return id;
     }
@@ -45,5 +51,21 @@ public class UserModel {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public int getIntentosFallidos() {
+        return intentosFallidos;
+    }
+
+    public void setIntentosFallidos(int intentosFallidos) {
+        this.intentosFallidos = intentosFallidos;
+    }
+
+    public boolean isBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(boolean bloqueado) {
+        this.bloqueado = bloqueado;
     }
 }

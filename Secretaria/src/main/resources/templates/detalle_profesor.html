@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Profesor</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-logo">Instituto</div>
+        <div class="navbar-links">
+            <a href="/">Inicio</a>
+            <a href="/profesores">Volver a Profesores</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h2>Detalle del Profesor</h2>
+        <div th:if="${profesor != null}">
+            <ul class="detalle-list">
+                <li><strong>Nombre:</strong> <span th:text="${profesor.nombre}"></span></li>
+                <li><strong>Apellido:</strong> <span th:text="${profesor.apellido}"></span></li>
+                <li><strong>DNI:</strong> <span th:text="${profesor.dni}"></span></li>
+                <li><strong>Fecha de Nacimiento:</strong> <span th:text="${profesor.fechaNacimiento}"></span></li>
+                <li><strong>Edad:</strong> <span th:text="${profesor.edad}"></span></li>
+                <li><strong>Sexo:</strong> <span th:text="${profesor.sexo}"></span></li>
+                <li><strong>Email:</strong> <span th:text="${profesor.email}"></span></li>
+                <li><strong>Teléfono:</strong> <span th:text="${profesor.telefono}"></span></li>
+                <li><strong>Domicilio:</strong> <span th:text="${profesor.domicilio}"></span></li>
+                <li><strong>Número:</strong> <span th:text="${profesor.nro}"></span></li>
+                <li><strong>Piso:</strong> <span th:text="${profesor.piso}"></span></li>
+                <li><strong>Código Postal:</strong> <span th:text="${profesor.codigoPostal}"></span></li>
+                <li><strong>Localidad:</strong> <span th:text="${profesor.localidad}"></span></li>
+                <li><strong>Partida:</strong> <span th:text="${profesor.partida}"></span></li>
+                <li><strong>Foja:</strong> <span th:text="${profesor.foja}"></span></li>
+                <li><strong>CertificadoAF:</strong> <span th:text="${profesor.certificadoAF}"></span></li>
+                <li><strong>Lugar de Nacimiento:</strong> <span th:text="${profesor.lugarNacimiento}"></span></li>
+                <li><strong>País:</strong> <span th:text="${profesor.pais}"></span></li>
+            </ul>
+        </div>
+        <div th:if="${profesor == null}" class="alert alert-danger">
+            <p>No se encontró el profesor solicitado.</p>
+        </div>
+    </div>
+</body>
+</html>

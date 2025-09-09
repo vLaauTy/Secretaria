@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Profesor</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-logo">Instituto</div>
+        <div class="navbar-links">
+            <a href="/">Inicio</a>
+            <a href="/profesores">Volver a Profesores</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Editar Profesor por DNI</h2>
+
+        <!-- Mensajes de éxito o error -->
+        <div th:if="${successMessage}" class="alert alert-success">
+            <p th:text="${successMessage}"></p>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <!-- Paso 1: Buscar profesor por DNI -->
+        <div th:if="${profesor == null}">
+            <form th:action="@{/profesores/editarprofesor}" method="get">
+                <div class="form-group">
+                    <label for="dni">DNI del Profesor:</label>
+                    <input type="text" id="dni" name="dni" class="form-control" placeholder="Ingrese el DNI" required>
+                </div>
+                <button type="submit" class="btn btn-ver">Buscar Profesor</button>
+            </form>
+        </div>
+
+        <!-- Paso 2: Mostrar formulario de edición si se encontró el profesor -->
+        <div th:if="${profesor != null}">
+            <form th:action="@{/profesor/guardar}" th:object="${profesor}" method="post">
+                <input type="hidden" th:field="*{id}" />
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" th:field="*{nombre}" required />
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido" th:field="*{apellido}" required />
+                </div>
+                <div class="form-group">
+                    <label for="dni">DNI:</label>
+                    <input type="text" id="dni" th:field="*{dni}" required />
+                </div>
+                <div class="form-group">
+                    <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                    <input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" required />
+                </div>
+                <div class="form-group">
+                    <label for="lugarNacimiento">Lugar de Nacimiento:</label>
+                    <input type="text" id="lugarNacimiento" th:field="*{lugarNacimiento}" required />
+                </div>
+                <div class="form-group">
+                    <label for="pais">País:</label>
+                    <input type="text" id="pais" th:field="*{pais}" required />
+                </div>
+                <div class="form-group">
+                    <label for="sexo">Sexo:</label>
+                    <select id="sexo" th:field="*{sexo}" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="Hombre">Hombre</option>
+                        <option value="Mujer">Mujer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" th:field="*{telefono}" required />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" th:field="*{email}" required />
+                </div>
+                <div class="form-group">
+                    <label for="domicilio">Domicilio:</label>
+                    <input type="text" id="domicilio" th:field="*{domicilio}" required />
+                </div>
+                <div class="form-group">
+                    <label for="nro">Número:</label>
+                    <input type="text" id="nro" th:field="*{nro}" />
+                </div>
+                <div class="form-group">
+                    <label for="piso">Piso:</label>
+                    <input type="text" id="piso" th:field="*{piso}" />
+                </div>
+                <div class="form-group">
+                    <label for="codigoPostal">Código Postal:</label>
+                    <input type="text" id="codigoPostal" th:field="*{codigoPostal}" required />
+                </div>
+                <div class="form-group">
+                    <label for="localidad">Localidad:</label>
+                    <input type="text" id="localidad" th:field="*{localidad}" required />
+                </div>
+                <div class="form-group">
+                    <label for="partida">Partida:</label>
+                    <input type="text" id="partida" th:field="*{partida}" required />
+                </div>
+                <div class="form-group">
+                    <label for="foja">Foja:</label>
+                    <input type="number" id="foja" th:field="*{foja}" required min="1" />
+                </div>
+                <div class="form-group">
+                    <label for="certificadoAF">CertificadoAF:</label>
+                    <select id="certificadoAF" th:field="*{certificadoAF}" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="/profesores" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -47,4 +47,8 @@ public class ProfesorService {
         return false;
     }
 
+    public Optional<ProfesorModel> findByDni(String dni) {
+        return repo.findByDni(dni);
+    }
+
 }
