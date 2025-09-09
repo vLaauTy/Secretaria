@@ -19,11 +19,11 @@ import com.Secretaria.Secretaria.service.AlumnoService;
 @Controller
 @RequestMapping
 public class AlumnoController {
-     @Autowired
+    @Autowired
     private AlumnoService AlumnoService;
 
-    @GetMapping("/Alumnos")
-    public String Alumnos(@RequestParam(required = false) String sexo,
+    @GetMapping("/alumnos")
+    public String alumnos(@RequestParam(required = false) String sexo,
             @RequestParam(required = false) Integer edadMin,
             @RequestParam(required = false) Integer edadMax,
             @RequestParam(required = false) String dni,
@@ -48,38 +48,40 @@ public class AlumnoController {
         // Filtrar por rango de edad
         if (edadMin != null || edadMax != null) {
             Alumnos = Alumnos.stream().filter(alumno -> {
-            int edad = alumno.getEdad();
-            boolean cumpleMin = (edadMin == null) || (edad >= edadMin);
-            boolean cumpleMax = (edadMax == null) || (edad <= edadMax);
-            return cumpleMin && cumpleMax;})
-            .toList();
+                int edad = alumno.getEdad();
+                boolean cumpleMin = (edadMin == null) || (edad >= edadMin);
+                boolean cumpleMax = (edadMax == null) || (edad <= edadMax);
+                return cumpleMin && cumpleMax;
+            })
+                    .toList();
         }
-        model.addAttribute("Alumnos", Alumnos);
-        return "listado_Alumnos";
+        model.addAttribute("alumnos", Alumnos);
+        return "listado_alumnos";
     }
 
-    @GetMapping("/Alumnos/nuevo")
+    @GetMapping("/alumnos/nuevo")
     public String nuevoAlumno(Model model) {
         model.addAttribute("Alumno", new AlumnoModel());
         return "formulario_alumnos"; // Nombre del archivo HTML en templates
     }
 
-    @PostMapping("/Alumno/guardar")
+    @PostMapping("/alumno/guardar")
     public String guardarAlumno(@ModelAttribute("Alumno") AlumnoModel Alumno, Model model) {
         AlumnoService.save(Alumno);
-        return "redirect:/Alumnos";
+        return "redirect:/alumnos";
     }
 
-    @GetMapping("/Alumnos/detalle/{id}")
+    @GetMapping("/alumnos/detalle/{id}")
     public String detalleAlumno(@PathVariable Long id, Model model) {
-        Optional<AlumnoModel> Alumno = AlumnoService.findById(id);
-        if (Alumno.isPresent()) {
-            model.addAttribute("Alumno", Alumno.get());
+        Optional<AlumnoModel> alumno = AlumnoService.findById(id);
+        if (alumno.isPresent()) {
+            model.addAttribute("alumno", alumno.get());
+            return "detalle_alumno";
         }
-        return "redirect:/Alumnos";
+        return "redirect:/alumnos";
     }
 
-    @GetMapping("/Alumnos/editar/{id}")
+    @GetMapping("/alumnos/editar/{id}")
     public String editarAlumno(@PathVariable Long id, Model model) {
         Optional<AlumnoModel> Alumno = AlumnoService.findById(id);
         if (Alumno.isPresent()) {
@@ -90,10 +92,10 @@ public class AlumnoController {
         return "formulario_alumnos";
     }
 
-    @GetMapping("/Alumnos/eliminar/{id}")
+    @GetMapping("/alumnos/eliminar/{id}")
     public String eliminarAlumno(@PathVariable Long id, Model model) {
         AlumnoService.deleteById(id);
-        return "redirect:/Alumnos";
+        return "redirect:/alumnos";
     }
 
 }

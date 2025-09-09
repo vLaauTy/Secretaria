@@ -1,64 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Listado de Alumnos</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
-<h1>Listado de Alumnos</h1>
+    <h1>Listado de Alumnos</h1>
 
-<!-- Filtros -->
-<form th:action="@{/Alumnos}" method="get">
-    Sexo:
-    <select name="sexo">
-        <option value="">Todos</option>
-        <option value="Masculino" th:selected="${sexo == 'Masculino'}">Masculino</option>
-        <option value="Femenino" th:selected="${sexo == 'Femenino'}">Femenino</option>
-    </select>
+    <!-- Filtros -->
+    <form th:action="@{/alumnos}" method="get">
+        Sexo:
+        <select name="sexo">
+            <option value="">Todos</option>
+            <option value="Masculino" th:selected="${sexo == 'Masculino'}">Masculino</option>
+            <option value="Femenino" th:selected="${sexo == 'Femenino'}">Femenino</option>
+        </select>
 
-    dni:
-    <input type="text" name="dni" th:value="${dni}"/>
+        dni:
+        <input type="text" name="dni" th:value="${dni}" />
 
-    Edad mínima:
-    <input type="number" name="edadMin" th:value="${edadMin}"/>
+        Edad mínima:
+        <input type="number" name="edadMin" th:value="${edadMin}" />
 
-    Edad máxima:
-    <input type="number" name="edadMax" th:value="${edadMax}"/>
+        Edad máxima:
+        <input type="number" name="edadMax" th:value="${edadMax}" />
 
-    <button type="submit">Filtrar</button>
-</form>
+        <button type="submit">Filtrar</button>
+    </form>
 
-<a th:href="@{/Alumnos/nuevo}">Nuevo Alumno</a>
+    <a th:href="@{/alumnos/nuevo}">Nuevo Alumno</a>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Sexo</th>
-            <th>dni</th>
-            <th>Edad</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="alumno : ${Alumnos}">
-            <td th:text="${alumno.id}"></td>
-            <td th:text="${alumno.DA_Nom}"></td>
-            <td th:text="${alumno.DA_Ape}"></td>
-            <td th:text="${alumno.DA_Sex}"></td>
-            <td th:text="${alumno.dni}"></td>
-            <td th:text="${alumno.edad}"></td>
-            <td>
-                <a th:href="@{/Alumnos/detalle/{id}(id=${alumno.id})}">Detalle</a> |
-                <a th:href="@{/Alumnos/editar/{id}(id=${alumno.id})}">Editar</a> |
-                <a th:href="@{/Alumnos/eliminar/{id}(id=${alumno.id})}" 
-                   onclick="return confirm('¿Está seguro de eliminar este alumno?')">Eliminar</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Sexo</th>
+                <th>dni</th>
+                <th>Edad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="alumno : ${alumnos}">
+                <td th:text="${alumno.id}"></td>
+                <td th:text="${alumno.DA_Nom}"></td>
+                <td th:text="${alumno.DA_Ape}"></td>
+                <td th:text="${alumno.DA_Sex}"></td>
+                <td th:text="${alumno.dni}"></td>
+                <td th:text="${alumno.edad}"></td>
+                <td>
+                    <a th:href="@{/alumnos/detalle/{id}(id=${alumno.id})}">Detalle</a> |
+                    <a th:href="@{/alumnos/editar/{id}(id=${alumno.id})}">Editar</a> |
+                    <a th:href="@{/alumnos/eliminar/{id}(id=${alumno.id})}"
+                        onclick="return confirm('¿Está seguro de eliminar este alumno?')">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
+
 </html>
