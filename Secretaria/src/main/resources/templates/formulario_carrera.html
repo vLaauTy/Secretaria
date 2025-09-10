@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Carrera</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Formulario de Carrera</h2>
+
+        <form th:action="@{/carrera/guardar}" th:object="${carrera}" method="post">
+            <input type="hidden" th:field="*{id}" />
+            <div class="form-grid">
+                <!-- Datos básicos -->
+                <div class="form-group full-width">
+                    <label for="nombre">Nombre de la Carrera <span class="required">*</span></label>
+                    <input type="text" id="nombre" th:field="*{nombre}" required
+                        placeholder="Ingrese el nombre de la carrera">
+                </div>
+                <div class="form-group">
+                    <label for="cantidadMaterias">Cantidad de Materias en la Carrera <span class="required">*</span></label>
+                    <input type="number" id="cantidadMaterias" th:field="*{cantidadMaterias}" required min="1"
+                        placeholder="Cantidad de Materias">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="cargaHoraria">Carga Horaria (horas) <span class="required">*</span></label>
+                    <input type="number" id="cargaHoraria" th:field="*{cargaHoraria}" required min="1"
+                        placeholder="Horas semanales">
+                </div>
+
+                <div class="form-group">
+                    <label for="fechaAlta">Fecha de Alta <span class="required">*</span></label>
+                    <input type="date" id="fechaAlta" th:field="*{fechaAlta}" required>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="btn btn-primary">Guardar Carrera</button>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

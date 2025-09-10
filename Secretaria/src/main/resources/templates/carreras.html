@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Carreras</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-logo">Instituto</div>
+    <div class="navbar-links">
+      <a href="/">Inicio</a>
+      <a href="/alumnos">Alumnos</a>
+      <a href="/profesores">Profesores</a>
+      <a href="/materias">Materias</a>
+      <a href="/logout">Cerrar sesión</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Gestión de carreras</h2>
+    <a href="/carreras/nuevo" class="btn btn-editar">➕ Agregar Carrera</a>
+
+    <div th:if="${carreras == null or #lists.isEmpty(carreras)}" class="alert">
+      <p>No hay carreras registradas en el sistema.</p>
+    </div>
+
+    <!-- Tabla de carreras -->
+    <div th:if="${carreras != null and not #lists.isEmpty(carreras)}">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Fecha de Alta</th>
+            <th>Cantidad de Materias</th>
+            <th>Carga Horaria</th>           
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="carrera : ${carreras}">
+            <td th:text="${carrera.id}"></td>
+            <td th:text="${carrera.nombre}"></td>
+            <td th:text="${carrera.fechaAlta}"></td>
+            <td th:text="${carrera.cantidadMaterias}"></td>
+            <td th:text="${carrera.cargaHoraria}"></td>
+            
+            <td class="acciones">
+              <a th:href="@{/carreras/detalle/{id}(id=${carrera.id})}" 
+                 class="btn btn-ver" 
+                 title="Ver detalles">
+                👁️ Ver
+              </a>
+              <a th:href="@{/carreras/editar/{id}(id=${carrera.id})}" 
+                 class="btn btn-editar" 
+                 title="Editar carrera">
+                ✏️ Editar
+              </a>
+              <a th:href="@{/carreras/eliminar/{id}(id=${carrera.id})}" 
+                 class="btn btn-eliminar" 
+                 title="Eliminar carrera"
+                 onclick="return confirm('¿Está seguro de que desea eliminar esta carrera?')">
+                🗑️ Eliminar
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+
+</html>
