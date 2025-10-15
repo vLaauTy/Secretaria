@@ -68,6 +68,10 @@ public class ProfesorModel {
     @Transient
     private Integer edad;
 
+        // Relación OneToMany con MateriaModel
+        @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        private java.util.List<MateriaModel> materias;
+
     // Getters y Setters
     public Long getId() {
 
@@ -226,4 +230,12 @@ public class ProfesorModel {
         }
         return null;
     }
+
+        public java.util.List<MateriaModel> getMaterias() {
+            return materias;
+        }
+
+        public void setMaterias(java.util.List<MateriaModel> materias) {
+            this.materias = materias;
+        }
 }

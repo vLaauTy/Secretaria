@@ -1,20 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Detalle del Profesor</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="navbar-logo">Instituto</div>
         <div class="navbar-links">
             <a href="/">Inicio</a>
-            <a href="/profesores">Volver a Profesores</a>
+            <a href="/alumnos">Alumnos</a>
+            <a href="/profesores">Profesores</a>
+            <a href="/materias">Materias</a>
+            <a href="/carreras">Carreras</a>
+            <a href="/logout">Cerrar sesión</a>
         </div>
     </nav>
     <div class="container">
         <h2>Detalle del Profesor</h2>
+        
+        <!-- Mensajes de éxito o error -->
+        <div th:if="${successMessage}" class="alert alert-success">
+            <p th:text="${successMessage}"></p>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+        
         <div th:if="${profesor != null}">
             <ul class="detalle-list">
                 <li><strong>Nombre:</strong> <span th:text="${profesor.nombre}"></span></li>
@@ -36,10 +51,50 @@
                 <li><strong>Lugar de Nacimiento:</strong> <span th:text="${profesor.lugarNacimiento}"></span></li>
                 <li><strong>País:</strong> <span th:text="${profesor.pais}"></span></li>
             </ul>
+
+            <!-- Sección de Materias Asignadas -->
+            <h3>Materias Asignadas</h3>
+            <div th:if="${profesor.materias == null or #lists.isEmpty(profesor.materias)}" class="alert">
+                <p>Este profesor no tiene materias asignadas.</p>
+            </div>
+            <div th:if="${profesor.materias != null and not #lists.isEmpty(profesor.materias)}">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Año</th>
+                            <th>Carrera</th>
+                            <th>Carga Horaria</th>
+                            <th>Hora Total</th>
+                            <th>Fecha de Alta</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="materia : ${profesor.materias}">
+                            <td th:text="${materia.nombre}"></td>
+                            <td th:text="${materia.anio}"></td>
+                            <td th:text="${materia.carrera != null ? materia.carrera : 'Sin asignar'}"></td>
+                            <td th:text="${materia.cargaHoraria}"></td>
+                            <td th:text="${materia.horaTotal}"></td>
+                            <td th:text="${materia.fechaAlta}"></td>
+                            <td>
+                                <a th:href="@{/profesores/{profesorId}/eliminar-materia/{materiaId}(profesorId=${profesor.id}, materiaId=${materia.id})}" 
+                                   class="btn btn-eliminar" 
+                                   title="Eliminar materia del profesor"
+                                   onclick="return confirm('¿Está seguro de que desea quitar esta materia del profesor?')">
+                                    🗑️ Quitar
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div th:if="${profesor == null}" class="alert alert-danger">
             <p>No se encontró el profesor solicitado.</p>
         </div>
     </div>
 </body>
+
 </html>

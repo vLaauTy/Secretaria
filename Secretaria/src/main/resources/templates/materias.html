@@ -16,6 +16,7 @@
       <a href="/alumnos">Alumnos</a>
       <a href="/profesores">Profesores</a>
       <a href="/materias">Materias</a>
+      <a href="/carreras">Carreras</a>
       <a href="/logout">Cerrar sesión</a>
     </div>
   </nav>
@@ -37,6 +38,7 @@
             <th>ID</th>
             <th>Nombre</th>
             <th>Año</th>
+            <th>Carrera</th>
             <th>Carga Horaria</th>
             <th>Hora Total</th>
             <th>Fecha de Alta</th>
@@ -48,24 +50,16 @@
             <td th:text="${materia.id}"></td>
             <td th:text="${materia.nombre}"></td>
             <td th:text="${materia.anio}"></td>
+            <td th:text="${materia.carrera != null ? materia.carrera.nombre : 'Sin asignar'}"></td>
             <td th:text="${materia.cargaHoraria}"></td>
             <td th:text="${materia.horaTotal}"></td>
             <td th:text="${materia.fechaAlta}"></td>
             <td class="acciones">
-              <a th:href="@{/materias/detalle/{id}(id=${materia.id})}" 
-                 class="btn btn-ver" 
-                 title="Ver detalles">
-                👁️ Ver
-              </a>
-              <a th:href="@{/materias/editar/{id}(id=${materia.id})}" 
-                 class="btn btn-editar" 
-                 title="Editar materia">
+              <a th:href="@{/materias/editar/{id}(id=${materia.id})}" class="btn btn-editar" title="Editar materia">
                 ✏️ Editar
               </a>
-              <a th:href="@{/materias/eliminar/{id}(id=${materia.id})}" 
-                 class="btn btn-eliminar" 
-                 title="Eliminar materia"
-                 onclick="return confirm('¿Está seguro de que desea eliminar esta materia?')">
+              <a th:href="@{/materias/eliminar/{id}(id=${materia.id})}" class="btn btn-eliminar"
+                title="Eliminar materia" onclick="return confirm('¿Está seguro de que desea eliminar esta materia?')">
                 🗑️ Eliminar
               </a>
             </td>

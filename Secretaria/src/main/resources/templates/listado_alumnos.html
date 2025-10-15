@@ -8,6 +8,17 @@
 </head>
 
 <body>
+    <nav class="navbar">
+        <div class="navbar-logo">Instituto</div>
+        <div class="navbar-links">
+            <a href="/">Inicio</a>
+            <a href="/alumnos">Alumnos</a>
+            <a href="/profesores">Profesores</a>
+            <a href="/materias">Materias</a>
+            <a href="/carreras">Carreras</a>
+            <a href="/logout">Cerrar sesión</a>
+        </div>
+    </nav>
     <h1>Listado de Alumnos</h1>
 
     <!-- Filtros -->
@@ -41,6 +52,8 @@
                 <th>Apellido</th>
                 <th>Sexo</th>
                 <th>dni</th>
+                <th>Carrera</th>
+                <th>Año</th>
                 <th>Edad</th>
                 <th>Acciones</th>
             </tr>
@@ -52,6 +65,8 @@
                 <td th:text="${alumno.DA_Ape}"></td>
                 <td th:text="${alumno.DA_Sex}"></td>
                 <td th:text="${alumno.dni}"></td>
+                <td th:text="${alumno.carrera != null ? alumno.carrera.nombre : 'Sin carrera'}"></td>
+                <td th:text="${alumno.añoCarrera != null ? alumno.añoCarrera : '1°'}"></td>
                 <td th:text="${alumno.edad}"></td>
                 <td>
                     <a th:href="@{/alumnos/detalle/{id}(id=${alumno.id})}">Detalle</a> |

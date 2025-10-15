@@ -1,6 +1,7 @@
 package com.Secretaria.Secretaria.Model;
 
 import jakarta.persistence.*;
+
 @Entity
 @Table(name = "carreras")
 
@@ -9,7 +10,7 @@ public class CarreraModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-   @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String nombre;
 
     @Column(nullable = false)
@@ -21,6 +22,16 @@ public class CarreraModel {
     @Column(nullable = false)
     private Integer cargaHoraria;
 
+    @Column
+    private String abreviatura;
+
+    // Relación OneToMany con AlumnoModel
+    @OneToMany(mappedBy = "carrera", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private java.util.List<AlumnoModel> alumnos;
+
+    // Relación OneToMany con MateriaModel
+    @OneToMany(mappedBy = "carrera", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private java.util.List<MateriaModel> materias;
 
     // Getters and Setters
     public Long getId() {
@@ -50,6 +61,7 @@ public class CarreraModel {
     public Integer getCantidadMaterias() {
         return cantidadMaterias;
     }
+
     public void setCantidadMaterias(Integer cantidadMaterias) {
         this.cantidadMaterias = cantidadMaterias;
     }
@@ -60,5 +72,29 @@ public class CarreraModel {
 
     public void setCargaHoraria(Integer cargaHoraria) {
         this.cargaHoraria = cargaHoraria;
+    }
+
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
+    }
+
+    public java.util.List<AlumnoModel> getAlumnos() {
+        return alumnos;
+    }
+
+    public void setAlumnos(java.util.List<AlumnoModel> alumnos) {
+        this.alumnos = alumnos;
+    }
+
+    public java.util.List<MateriaModel> getMaterias() {
+        return materias;
+    }
+
+    public void setMaterias(java.util.List<MateriaModel> materias) {
+        this.materias = materias;
     }
 }

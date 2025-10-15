@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Secretaria.Secretaria.Model.MateriaModel;
 import com.Secretaria.Secretaria.service.MateriaService;
+import com.Secretaria.Secretaria.service.CarreraService;
 
 @Controller
 @RequestMapping
@@ -18,6 +19,9 @@ public class MateriaController {
 
     @Autowired
     private MateriaService materiaService;
+
+    @Autowired
+    private CarreraService carreraService;
 
     @GetMapping("/materias")
     public String materias(Model model) {
@@ -28,6 +32,7 @@ public class MateriaController {
     @GetMapping("/materias/nuevo")
     public String nuevaMateria(Model model) {
         model.addAttribute("materia", new MateriaModel());
+        model.addAttribute("carreras", carreraService.findAll());
         return "formulario_materia"; // Nombre del archivo HTML en templates
     }
 
@@ -56,6 +61,7 @@ public class MateriaController {
         } else {
             model.addAttribute("materia", new MateriaModel());
         }
+        model.addAttribute("carreras", carreraService.findAll());
         return "formulario_materia";
     }
 

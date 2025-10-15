@@ -1,110 +1,470 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title th:text="${Alumno.id} != null ? 'Editar Alumno' : 'Nuevo Alumno'">Formulario Alumno</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .form-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; background: #f9f9f9; }
+        .form-section h2 { color: #333; margin-bottom: 15px; }
+        .form-group { margin: 10px 0; }
+        .form-group label { display: inline-block; width: 150px; font-weight: bold; }
+        .required { color: red; }
+        .radio-group { display: inline-block; margin: 0 10px; }
+        select, input { padding: 5px; margin: 2px; border: 1px solid #ccc; }
+    </style>
 </head>
+
 <body>
-<h1 th:text="${Alumno.id} != null ? 'Editar Alumno' : 'Nuevo Alumno'"></h1>
+    <nav class="navbar">
+        <div class="navbar-logo">Instituto</div>
+        <div class="navbar-links">
+            <a href="/">Inicio</a>
+            <a href="/alumnos">Alumnos</a>
+            <a href="/profesores">Profesores</a>
+            <a href="/materias">Materias</a>
+            <a href="/carreras">Carreras</a>
+            <a href="/logout">Cerrar sesión</a>
+        </div>
+    </nav>
 
-<form th:action="@{/alumno/guardar}" th:object="${Alumno}" method="post">
-    <input type="hidden" th:field="*{id}"/>
+    <div class="container">
+        <h1 th:text="${Alumno.id} != null ? 'Editar Alumno' : 'Nuevo Alumno'"></h1>
 
-    <!-- ===== DATOS PERSONALES ===== -->
-    <h2>Datos Personales</h2>
-    Año Lectivo: <input type="number" th:field="*{ano_lec}" required value="2025"/><br/>
-    NRO LEGAJO:<input type="number" th:field="*{nroLeg}" required /><br/>
-    Carrera: 
-    <select th:field="*{carrera}" required>
-        <option value="">Seleccionar carrera</option>
-        <option value="101">Ingeniería en Sistemas</option>
-        <option value="102">Licenciatura en Informática</option>
-        <option value="103">Técnico en Programación</option>
-        <option value="104">Analista de Sistemas</option>
-        <option value="105">Ingeniería en Software</option>
-        <option value="106">Licenciatura en Ciencias de la Computación</option>
-    </select><br/>
-    Nombre: <input type="text" th:field="*{DA_Nom}" required/><br/>
-    Apellido: <input type="text" th:field="*{DA_Ape}" required/><br/>
-    Sexo:
-    <select th:field="*{DA_Sex}">
-        <option value="Masculino" th:selected="${Alumno.DA_Sex == 'Masculino'}">Masculino</option>
-        <option value="Femenino" th:selected="${Alumno.DA_Sex == 'Femenino'}">Femenino</option>
-    </select><br/>
-    Tipo Documento: <input type="text" th:field="*{DA_TipDoc}"/><br/>
-    dni: <input type="text" th:field="*{dni}"/><br/>
-    Estado Civil: <input type="text" th:field="*{DA_EstCiv}"/><br/>
-    Fecha Nacimiento: <input type="date" th:field="*{DA_FeNa}"/><br/>
-    Localidad Nacimiento: <input type="text" th:field="*{DA_LocNa}"/><br/>
-    País Nacimiento: <input type="text" th:field="*{DA_PaisNa}"/><br/>
-    Calle: <input type="text" th:field="*{DA_DomCalle}"/><br/>
-    Número: <input type="number" th:field="*{DA_DomNro}"/><br/>
-    Piso: <input type="number" th:field="*{DA_DomPiso}"/><br/>
-    Dpto: <input type="text" th:field="*{DA_DomDpto}"/><br/>
-    Provincia: <input type="text" th:field="*{DA_Prov}"/><br/>
-    Distrito: <input type="text" th:field="*{DA_Distri}"/><br/>
-    Localidad: <input type="text" th:field="*{DA_Loc}"/><br/>
-    Código Postal: <input type="number" th:field="*{DA_CodPost}"/><br/>
-    Teléfono Fijo: <input type="text" th:field="*{DA_TelFij}"/><br/>
-    Celular: <input type="text" th:field="*{DA_Cel}"/><br/>
-    Correo: <input type="email" th:field="*{DA_Correo}"/><br/>
+        <form th:action="@{/alumno/guardar}" th:object="${Alumno}" method="post">
+            <input type="hidden" th:field="*{id}" />
 
-    <!-- ===== TÍTULO SECUNDARIO ===== -->
-    <h2>Título Secundario</h2>
-    <label>¿Cuenta con título secundario?</label>
-    <input type="checkbox" th:field="*{F_TitSec}"/><br/>
+            <!-- ===== DATOS ACADÉMICOS ===== -->
+            <div class="form-section">
+                <h2>Datos Académicos</h2>
+                <div class="form-group">
+                    <label>Año Lectivo <span class="required">*</span>:</label>
+                    <input type="number" th:field="*{ano_lec}" required value="2025" min="2020" max="2030" />
+                </div>
+                <div class="form-group">
+                    <label>Nro. Legajo <span class="required">*</span>:</label>
+                    <input type="number" th:field="*{nroLeg}" required />
+                </div>
+                <div class="form-group">
+                    <label>Carrera <span class="required">*</span>:</label>
+                    <select th:field="*{carrera}" required>
+                        <option value="">Seleccionar carrera</option>
+                        <option th:each="carrera : ${carreras}" th:value="${carrera.id}" th:text="${carrera.nombre}"
+                            th:selected="${Alumno.carrera != null and Alumno.carrera.id == carrera.id}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Año de Carrera <span class="required">*</span>:</label>
+                    <select th:field="*{añoCarrera}" required>
+                        <option value="">Seleccionar año</option>
+                        <option value="1°">1°</option>
+                        <option value="2°">2°</option>
+                        <option value="3°">3°</option>
+                    </select>
+                </div>
+            </div>
 
-    <div th:if="${Alumno.F_TitSec == false}">
-        Cantidad de materias adeudadas: <input type="number" th:field="*{F_TitSecNo}"/><br/>
-        Nombre de materias adeudadas: <input type="text" th:field="*{F_TitSecNo2}"/><br/>
+            <!-- ===== DATOS PERSONALES ===== -->
+            <div class="form-section">
+                <h2>Datos Personales</h2>
+                <div class="form-group">
+                    <label>Nombre <span class="required">*</span>:</label>
+                    <input type="text" th:field="*{DA_Nom}" required />
+                </div>
+                <div class="form-group">
+                    <label>Apellido <span class="required">*</span>:</label>
+                    <input type="text" th:field="*{DA_Ape}" required />
+                </div>
+                <div class="form-group">
+                    <label>Sexo:</label>
+                    <div class="radio-group">
+                        <input type="radio" th:field="*{DA_Sex}" value="Masculino" id="sexM" />
+                        <label for="sexM">Masculino</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" th:field="*{DA_Sex}" value="Femenino" id="sexF" />
+                        <label for="sexF">Femenino</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Tipo Documento:</label>
+                    <select th:field="*{DA_TipDoc}">
+                        <option value="">Seleccionar tipo</option>
+                        <option value="DNI">DNI</option>
+                        <option value="LE">LE</option>
+                        <option value="LC">LC</option>
+                        <option value="CI">CI</option>
+                        <option value="Pasaporte">Pasaporte</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Número DNI:</label>
+                    <input type="text" th:field="*{dni}" pattern="[0-9]{7,8}" placeholder="Ej: 12345678" />
+                </div>
+                <div class="form-group">
+                    <label>Estado Civil:</label>
+                    <select th:field="*{DA_EstCiv}">
+                        <option value="">Seleccionar estado</option>
+                        <option value="Soltero/a">Soltero/a</option>
+                        <option value="Casado/a">Casado/a</option>
+                        <option value="Divorciado/a">Divorciado/a</option>
+                        <option value="Viudo/a">Viudo/a</option>
+                        <option value="Unión Convivencial">Unión Convivencial</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Fecha Nacimiento:</label>
+                    <input type="date" th:field="*{DA_FeNa}" />
+                </div>
+                <div class="form-group">
+                    <label>Localidad Nacimiento:</label>
+                    <input type="text" th:field="*{DA_LocNa}" />
+                </div>
+                <div class="form-group">
+                    <label>País Nacimiento:</label>
+                    <select th:field="*{DA_PaisNa}">
+                        <option value="">Seleccionar país</option>
+                        <option value="Argentina" selected>Argentina</option>
+                        <option value="Brasil">Brasil</option>
+                        <option value="Chile">Chile</option>
+                        <option value="Uruguay">Uruguay</option>
+                        <option value="Paraguay">Paraguay</option>
+                        <option value="Bolivia">Bolivia</option>
+                        <option value="Perú">Perú</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ===== DOMICILIO ===== -->
+            <div class="form-section">
+                <h2>Domicilio</h2>
+                <div class="form-group">
+                    <label>Calle:</label>
+                    <input type="text" th:field="*{DA_DomCalle}" />
+                </div>
+                <div class="form-group">
+                    <label>Número:</label>
+                    <input type="number" th:field="*{DA_DomNro}" min="1" />
+                </div>
+                <div class="form-group">
+                    <label>Piso:</label>
+                    <input type="number" th:field="*{DA_DomPiso}" min="0" />
+                </div>
+                <div class="form-group">
+                    <label>Departamento:</label>
+                    <input type="text" th:field="*{DA_DomDpto}" maxlength="6" />
+                </div>
+                <div class="form-group">
+                    <label>Provincia:</label>
+                    <select th:field="*{DA_Prov}">
+                        <option value="">Seleccionar provincia</option>
+                        <option value="Buenos Aires">Buenos Aires</option>
+                        <option value="CABA">Ciudad Autónoma de Buenos Aires</option>
+                        <option value="Catamarca">Catamarca</option>
+                        <option value="Chaco">Chaco</option>
+                        <option value="Chubut">Chubut</option>
+                        <option value="Córdoba">Córdoba</option>
+                        <option value="Corrientes">Corrientes</option>
+                        <option value="Entre Ríos">Entre Ríos</option>
+                        <option value="Formosa">Formosa</option>
+                        <option value="Jujuy">Jujuy</option>
+                        <option value="La Pampa">La Pampa</option>
+                        <option value="La Rioja">La Rioja</option>
+                        <option value="Mendoza">Mendoza</option>
+                        <option value="Misiones">Misiones</option>
+                        <option value="Neuquén">Neuquén</option>
+                        <option value="Río Negro">Río Negro</option>
+                        <option value="Salta">Salta</option>
+                        <option value="San Juan">San Juan</option>
+                        <option value="San Luis">San Luis</option>
+                        <option value="Santa Cruz">Santa Cruz</option>
+                        <option value="Santa Fe">Santa Fe</option>
+                        <option value="Santiago del Estero">Santiago del Estero</option>
+                        <option value="Tierra del Fuego">Tierra del Fuego</option>
+                        <option value="Tucumán">Tucumán</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Distrito:</label>
+                    <input type="text" th:field="*{DA_Distri}" />
+                </div>
+                <div class="form-group">
+                    <label>Localidad:</label>
+                    <input type="text" th:field="*{DA_Loc}" />
+                </div>
+                <div class="form-group">
+                    <label>Código Postal:</label>
+                    <input type="number" th:field="*{DA_CodPost}" min="1000" max="9999" />
+                </div>
+            </div>
+
+            <!-- ===== CONTACTO ===== -->
+            <div class="form-section">
+                <h2>Información de Contacto</h2>
+                <div class="form-group">
+                    <label>Teléfono Fijo:</label>
+                    <input type="tel" th:field="*{DA_TelFij}" placeholder="Ej: 1145678900" />
+                </div>
+                <div class="form-group">
+                    <label>Celular:</label>
+                    <input type="tel" th:field="*{DA_Cel}" placeholder="Ej: 1156789012" />
+                </div>
+                <div class="form-group">
+                    <label>Correo Electrónico:</label>
+                    <input type="email" th:field="*{DA_Correo}" placeholder="ejemplo@correo.com" />
+                </div>
+            </div>
+
+            <!-- ===== TÍTULO SECUNDARIO ===== -->
+            <div class="form-section">
+                <h2>Título Secundario</h2>
+                <div class="form-group">
+                    <label>¿Cuenta con título secundario?</label>
+                    <div class="radio-group">
+                        <input type="radio" th:field="*{F_TitSec}" value="true" id="titSecSi" />
+                        <label for="titSecSi">Sí</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" th:field="*{F_TitSec}" value="false" id="titSecNo" />
+                        <label for="titSecNo">No</label>
+                    </div>
+                </div>
+
+                <div th:if="${Alumno.F_TitSec == false}">
+                    <div class="form-group">
+                        <label>Materias adeudadas (cantidad):</label>
+                        <input type="number" th:field="*{F_TitSecNo}" min="1" max="20" />
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre de materias adeudadas:</label>
+                        <input type="text" th:field="*{F_TitSecNo2}" />
+                    </div>
+                </div>
+
+                <div th:if="${Alumno.F_TitSec == true}">
+                    <div class="form-group">
+                        <label>Título:</label>
+                        <input type="text" th:field="*{F_TitSecSi_Titulo}" placeholder="Ej: Bachiller en Ciencias Sociales" />
+                    </div>
+                    <div class="form-group">
+                        <label>Orientación:</label>
+                        <input type="text" th:field="*{F_TitSecSi_Orientacion}" placeholder="Ej: Ciencias Sociales" />
+                    </div>
+                    <div class="form-group">
+                        <label>Institución que otorgó:</label>
+                        <input type="text" th:field="*{F_TitSecSi_Otorga}" />
+                    </div>
+                    <div class="form-group">
+                        <label>Año de egreso:</label>
+                        <input type="number" th:field="*{F_TitSecSi_ano}" min="1950" max="2030" />
+                    </div>
+                    <div class="form-group">
+                        <label>Promedio:</label>
+                        <input type="number" step="0.01" th:field="*{F_TitSecSi_Promedio}" min="1" max="10" placeholder="Ej: 8.50" />
+                    </div>
+                    <div class="form-group">
+                        <label>Título en trámite:</label>
+                        <div class="radio-group">
+                            <input type="radio" th:field="*{F_TitSecSi_Tramite}" value="true" id="tramiteSi" />
+                            <label for="tramiteSi">Sí</label>
+                        </div>
+                        <div class="radio-group">
+                            <input type="radio" th:field="*{F_TitSecSi_Tramite}" value="false" id="tramiteNo" />
+                            <label for="tramiteNo">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== DATOS LABORALES ===== -->
+            <div class="form-section">
+                <h2>Situación Laboral</h2>
+                <div class="form-group">
+                    <label>¿Trabaja actualmente?</label>
+                    <div class="radio-group">
+                        <input type="radio" th:field="*{Trabaja}" value="true" id="trabajaSi" />
+                        <label for="trabajaSi">Sí</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" th:field="*{Trabaja}" value="false" id="trabajaNo" />
+                        <label for="trabajaNo">No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Tipo de trabajo:</label>
+                    <select th:field="*{Tra_list}">
+                        <option value="">Seleccionar tipo</option>
+                        <option value="Empleado">Empleado</option>
+                        <option value="Independiente">Independiente</option>
+                        <option value="Monotributista">Monotributista</option>
+                        <option value="Informal">Informal</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Horario de trabajo:</label>
+                    <select th:field="*{Tra_hor}">
+                        <option value="">Seleccionar horario</option>
+                        <option value="Tiempo completo">Tiempo completo (8+ horas)</option>
+                        <option value="Medio tiempo">Medio tiempo (4-6 horas)</option>
+                        <option value="Pocas horas">Pocas horas (menos de 4)</option>
+                        <option value="Variable">Variable</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>¿Es pensionado o jubilado?</label>
+                    <div class="radio-group">
+                        <input type="radio" th:field="*{Tra_PeJu}" value="true" id="pensSi" />
+                        <label for="pensSi">Sí</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" th:field="*{Tra_PeJu}" value="false" id="pensNo" />
+                        <label for="pensNo">No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>¿Trabaja en establecimiento educativo?</label>
+                    <select th:field="*{Tra_Edu}">
+                        <option value="">Seleccionar</option>
+                        <option value="No">No</option>
+                        <option value="Sí">Sí</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nivel de desempeño:</label>
+                    <input type="text" th:field="*{Tra_Edu_Desempeno}" />
+                </div>
+                <div class="form-group">
+                    <label>Tipo de gestión:</label>
+                    <select th:field="*{Tra_Edu_Gestion}">
+                        <option value="">Seleccionar</option>
+                        <option value="Pública">Pública</option>
+                        <option value="Privada">Privada</option>
+                        <option value="Mixta">Mixta</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ===== SITUACIÓN FAMILIAR ===== -->
+            <div class="form-section">
+                <h2>Situación Familiar</h2>
+                <div class="form-group">
+                    <label>¿Vive solo?</label>
+                    <div class="radio-group">
+                        <input type="radio" th:field="*{SF_Solo}" value="true" id="soloSi" />
+                        <label for="soloSi">Sí</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" th:field="*{SF_Solo}" value="false" id="soloNo" />
+                        <label for="soloNo">No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Con quién vive:</label>
+                    <select th:field="*{SF_SoloNo}">
+                        <option value="">Seleccionar</option>
+                        <option value="Padres">Padres</option>
+                        <option value="Pareja">Pareja</option>
+                        <option value="Familiares">Familiares</option>
+                        <option value="Amigos">Amigos</option>
+                        <option value="Pensión">Pensión</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>¿Tiene familiares a cargo?</label>
+                    <div class="radio-group">
+                        <input type="radio" th:field="*{SF_FCargo}" value="true" id="cargoSi" />
+                        <label for="cargoSi">Sí</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" th:field="*{SF_FCargo}" value="false" id="cargoNo" />
+                        <label for="cargoNo">No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Cantidad a cargo:</label>
+                    <select th:field="*{SF_FCargoSi}">
+                        <option value="">Seleccionar</option>
+                        <option value="1">1 persona</option>
+                        <option value="2">2 personas</option>
+                        <option value="3">3 personas</option>
+                        <option value="4+">4 o más personas</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ===== BECAS / PLANES ===== -->
+            <div class="form-section">
+                <h2>Becas y Planes Sociales</h2>
+                <div class="form-group">
+                    <label>Tipo de beca/plan:</label>
+                    <select th:field="*{BePlPr}">
+                        <option value="">Ninguno</option>
+                        <option value="Beca Progresar">Beca Progresar</option>
+                        <option value="Beca Institucional">Beca Institucional</option>
+                        <option value="Plan Trabajar">Plan Trabajar</option>
+                        <option value="AUH">Asignación Universal por Hijo</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Otro (especificar):</label>
+                    <input type="text" th:field="*{BePlPrOtro}" />
+                </div>
+            </div>
+
+            <!-- ===== PRÁCTICAS CULTURALES ===== -->
+            <div class="form-section">
+                <h2>Prácticas Culturales</h2>
+                <div class="form-group">
+                    <label>Actividades que realiza (marcar las que correspondan):</label><br/>
+                    <input type="checkbox" th:field="*{PCC_Radio}" id="radio" />
+                    <label for="radio">Escucha radio</label><br/>
+                    
+                    <input type="checkbox" th:field="*{PCC_Tele}" id="tv" />
+                    <label for="tv">Mira televisión</label><br/>
+                    
+                    <input type="checkbox" th:field="*{PCC_Teatro}" id="teatro" />
+                    <label for="teatro">Asiste a teatro</label><br/>
+                    
+                    <input type="checkbox" th:field="*{PCC_Museo}" id="museo" />
+                    <label for="museo">Asiste a museos</label><br/>
+                    
+                    <input type="checkbox" th:field="*{PCC_Conci}" id="concierto" />
+                    <label for="concierto">Asiste a conciertos</label><br/>
+                    
+                    <input type="checkbox" th:field="*{PCC_Recit}" id="recital" />
+                    <label for="recital">Asiste a recitales</label><br/>
+                    
+                    <input type="checkbox" th:field="*{PCC_LecFr}" id="lectura" />
+                    <label for="lectura">Realiza lecturas frecuentes</label><br/>
+                </div>
+                <div class="form-group">
+                    <label>Frecuencia de lectura:</label>
+                    <select th:field="*{PCC_LecFrSi}">
+                        <option value="">Seleccionar</option>
+                        <option value="Diaria">Diaria</option>
+                        <option value="Semanal">Semanal</option>
+                        <option value="Mensual">Mensual</option>
+                        <option value="Ocasional">Ocasional</option>
+                        <option value="Nunca">Nunca</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Otras prácticas culturales:</label>
+                    <input type="text" th:field="*{PCC_Otro}" placeholder="Especificar otras actividades" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Guardar Alumno</button>
+                <a th:href="@{/alumnos}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
     </div>
-
-    <div th:if="${Alumno.F_TitSec == true}">
-        Título: <input type="text" th:field="*{F_TitSecSi_Titulo}"/><br/>
-        Orientación: <input type="text" th:field="*{F_TitSecSi_Orientacion}"/><br/>
-        Institución que otorgó: <input type="text" th:field="*{F_TitSecSi_Otorga}"/><br/>
-        Año egreso: <input type="number" th:field="*{F_TitSecSi_ano}"/><br/>
-        Promedio: <input type="number" step="0.01" th:field="*{F_TitSecSi_Promedio}"/><br/>
-        Título en trámite: <input type="checkbox" th:field="*{F_TitSecSi_Tramite}"/><br/>
-    </div>
-
-    <!-- ===== DATOS LABORALES ===== -->
-    <h2>Datos Laborales</h2>
-    ¿Trabaja?: <input type="checkbox" th:field="*{Trabaja}"/><br/>
-    Lista de trabajos: <input type="text" th:field="*{Tra_list}"/><br/>
-    Horas de trabajo: <input type="text" th:field="*{Tra_hor}"/><br/>
-    ¿Es pensionado o jubilado?: <input type="checkbox" th:field="*{Tra_PeJu}"/><br/>
-    Trabaja en establecimiento educativo?: <input type="text" th:field="*{Tra_Edu}"/><br/>
-    Nivel desempeño: <input type="text" th:field="*{Tra_Edu_Desempeno}"/><br/>
-    Tipo de gestión: <input type="text" th:field="*{Tra_Edu_Gestion}"/><br/>
-
-    <!-- ===== SITUACIÓN FAMILIAR ===== -->
-    <h2>Situación Familiar</h2>
-    Vive solo?: <input type="checkbox" th:field="*{SF_Solo}"/><br/>
-    Con quien vive: <input type="text" th:field="*{SF_SoloNo}"/><br/>
-    Familiares a cargo?: <input type="checkbox" th:field="*{SF_FCargo}"/><br/>
-    A quien tiene a cargo: <input type="text" th:field="*{SF_FCargoSi}"/><br/>
-
-    <!-- ===== BECAS / PLANES ===== -->
-    <h2>Becas / Planes</h2>
-    Tipo de beca/plan: <input type="text" th:field="*{BePlPr}"/><br/>
-    Otro: <input type="text" th:field="*{BePlPrOtro}"/><br/>
-
-    <!-- ===== PRÁCTICAS CULTURALES ===== -->
-    <h2>Prácticas Culturales</h2>
-    Escucha radio: <input type="checkbox" th:field="*{PCC_Radio}"/><br/>
-    Mira televisión: <input type="checkbox" th:field="*{PCC_Tele}"/><br/>
-    Asiste a teatro: <input type="checkbox" th:field="*{PCC_Teatro}"/><br/>
-    Asiste a museo: <input type="checkbox" th:field="*{PCC_Museo}"/><br/>
-    Asiste a conciertos: <input type="checkbox" th:field="*{PCC_Conci}"/><br/>
-    Asiste a recitales: <input type="checkbox" th:field="*{PCC_Recit}"/><br/>
-    Realiza lecturas frecuentes: <input type="checkbox" th:field="*{PCC_LecFr}"/><br/>
-    Tipo de lectura: <input type="text" th:field="*{PCC_LecFrSi}"/><br/>
-    Otras prácticas culturales: <input type="text" th:field="*{PCC_Otro}"/><br/>
-
-    <button type="submit">Guardar</button>
-    <a th:href="@{/alumnos}">Cancelar</a>
-</form>
 </body>
+
 </html>

@@ -36,4 +36,13 @@ public class WebController {
         return "abm_profesores";
     }
 
+    @GetMapping("/menumaterias")
+    public String menuMaterias(Model model) {
+        return "menu_materias";
+    }
+
+    @GetMapping("/abm_materias")
+    public String abmMaterias(Model model) {
+        return "abm_materias";
+    }
 }

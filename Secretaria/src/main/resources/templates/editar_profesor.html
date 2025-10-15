@@ -13,7 +13,11 @@
         <div class="navbar-logo">Instituto</div>
         <div class="navbar-links">
             <a href="/">Inicio</a>
-            <a href="/profesores">Volver a Profesores</a>
+            <a href="/alumnos">Alumnos</a>
+            <a href="/profesores">Profesores</a>
+            <a href="/materias">Materias</a>
+            <a href="/carreras">Carreras</a>
+            <a href="/logout">Cerrar sesión</a>
         </div>
     </nav>
 
@@ -119,6 +123,21 @@
                         <option value="false">No</option>
                     </select>
                 </div>
+                    <!-- Selección de materias con checkboxes -->
+                    <div class="form-group">
+                        <label>Materias asignadas:</label>
+                        <div class="materias-checkbox-container">
+                            <div th:each="materia : ${todasMaterias}" class="materia-checkbox">
+                                <input type="checkbox" 
+                                       th:id="'materia_' + ${materia.id}"
+                                       th:name="materias" 
+                                       th:value="${materia.id}"
+                                       th:checked="${profesor.materias != null and #lists.contains(profesor.materias, materia)}">
+                                <label th:for="'materia_' + ${materia.id}" th:text="${materia.nombre + ' (' + materia.anio + ')'}">Materia</label>
+                            </div>
+                        </div>
+                        <small>Selecciona las materias que quieres asignar a este profesor.</small>
+                    </div>
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 <a href="/profesores" class="btn btn-secondary">Cancelar</a>
             </form>

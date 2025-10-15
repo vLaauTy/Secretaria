@@ -24,6 +24,9 @@ public class ProfesorController {
     @Autowired
     private ProfesorService profesorService;
 
+        @Autowired
+        private com.Secretaria.Secretaria.service.MateriaService materiaService;
+
     @GetMapping("/profesores")
     public String profesores(
             @RequestParam(required = false) String sexo,
@@ -75,15 +78,41 @@ public class ProfesorController {
     }
 
     @PostMapping("/profesor/guardar")
-    public String guardarProfesor(@ModelAttribute("profesor") ProfesorModel profesor, Model model,
-            RedirectAttributes redirectAttributes) {
+    public String guardarProfesor(@ModelAttribute("profesor") ProfesorModel profesor, 
+            @RequestParam(value = "materias", required = false) List<Long> materiasIds,
+            Model model, RedirectAttributes redirectAttributes) {
         // Validar si ya existe un profesor con el mismo DNI
         if (profesorService.findByDni(profesor.getDni()).isPresent() && profesor.getId() == null) {
             model.addAttribute("profesor", profesor);
             model.addAttribute("errorMessage", "Ya existe un profesor con ese DNI.");
             return "formulario_profesores";
         }
+
+        // Primero, quitar todas las materias actuales del profesor
+        if (profesor.getId() != null) {
+            Optional<ProfesorModel> profesorExistente = profesorService.findById(profesor.getId());
+            if (profesorExistente.isPresent() && profesorExistente.get().getMaterias() != null) {
+                for (com.Secretaria.Secretaria.Model.MateriaModel materia : profesorExistente.get().getMaterias()) {
+                    materia.setProfesor(null);
+                    materiaService.save(materia);
+                }
+            }
+        }
+
+        // Guardar el profesor primero
         profesorService.save(profesor);
+
+        // Asignar las nuevas materias seleccionadas
+        if (materiasIds != null && !materiasIds.isEmpty()) {
+            for (Long materiaId : materiasIds) {
+                com.Secretaria.Secretaria.Model.MateriaModel materia = materiaService.findById(materiaId);
+                if (materia != null) {
+                    materia.setProfesor(profesor);
+                    materiaService.save(materia);
+                }
+            }
+        }
+
         redirectAttributes.addFlashAttribute("successMessage", "Profesor guardado exitosamente.");
         return "redirect:/profesores";
     }
@@ -124,11 +153,36 @@ public class ProfesorController {
             Optional<ProfesorModel> profesor = profesorService.findByDni(dni);
             if (profesor.isPresent()) {
                 model.addAttribute("profesor", profesor.get());
+            // Agregar todas las materias para el selector
+            model.addAttribute("todasMaterias", materiaService.findAll());
             } else {
                 model.addAttribute("errorMessage", "No se encontró ningún profesor con el DNI " + dni + ".");
             }
         }
+        // Si no hay profesor, igual enviar la lista de materias (para evitar error en el formulario)
+        model.addAttribute("todasMaterias", materiaService.findAll());
         return "editar_profesor";
+    }
+
+    @GetMapping("/profesores/{profesorId}/eliminar-materia/{materiaId}")
+    public String eliminarMateriaDelProfesor(@PathVariable Long profesorId, @PathVariable Long materiaId, 
+            RedirectAttributes redirectAttributes) {
+        Optional<ProfesorModel> profesorOpt = profesorService.findById(profesorId);
+        com.Secretaria.Secretaria.Model.MateriaModel materia = materiaService.findById(materiaId);
+        
+        if (profesorOpt.isPresent() && materia != null) {
+            // Quitar la relación: desasignar el profesor de la materia
+            materia.setProfesor(null);
+            materiaService.save(materia);
+            
+            redirectAttributes.addFlashAttribute("successMessage", 
+                "La materia '" + materia.getNombre() + "' ha sido quitada del profesor exitosamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", 
+                "No se pudo quitar la materia del profesor. Verifique los datos.");
+        }
+        
+        return "redirect:/profesores/detalle/" + profesorId;
     }
 
 }

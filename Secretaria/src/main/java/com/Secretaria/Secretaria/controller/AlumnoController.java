@@ -21,6 +21,9 @@ import com.Secretaria.Secretaria.service.AlumnoService;
 public class AlumnoController {
     @Autowired
     private AlumnoService AlumnoService;
+    
+    @Autowired
+    private com.Secretaria.Secretaria.service.CarreraService carreraService;
 
     @GetMapping("/alumnos")
     public String alumnos(@RequestParam(required = false) String sexo,
@@ -62,6 +65,7 @@ public class AlumnoController {
     @GetMapping("/alumnos/nuevo")
     public String nuevoAlumno(Model model) {
         model.addAttribute("Alumno", new AlumnoModel());
+        model.addAttribute("carreras", carreraService.findAll());
         return "formulario_alumnos"; // Nombre del archivo HTML en templates
     }
 
@@ -89,6 +93,7 @@ public class AlumnoController {
         } else {
             model.addAttribute("Alumno", new AlumnoModel());
         }
+        model.addAttribute("carreras", carreraService.findAll());
         return "formulario_alumnos";
     }
 

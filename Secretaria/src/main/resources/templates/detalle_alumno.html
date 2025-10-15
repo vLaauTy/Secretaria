@@ -2,20 +2,319 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Detalle Alumno</title>
+    <title>Detalle del Alumno</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<h1>Detalle Alumno</h1>
+    <nav class="navbar">
+        <div class="navbar-logo">Instituto</div>
+        <div class="navbar-links">
+            <a href="/">Inicio</a>
+            <a href="/alumnos">Alumnos</a>
+            <a href="/profesores">Profesores</a>
+            <a href="/materias">Materias</a>
+            <a href="/carreras">Carreras</a>
+            <a href="/logout">Cerrar sesión</a>
+        </div>
+    </nav>
 
-<p><strong>ID:</strong> <span th:text="${alumno.id}"></span></p>
-<p><strong>Nombre:</strong> <span th:text="${alumno.DA_Nom}"></span></p>
-<p><strong>Apellido:</strong> <span th:text="${alumno.DA_Ape}"></span></p>
-<p><strong>Sexo:</strong> <span th:text="${alumno.DA_Sex}"></span></p>
-<p><strong>DNI:</strong> <span th:text="${alumno.dni}"></span></p>
-<p><strong>Edad:</strong> <span th:text="${alumno.edad}"></span></p>
-<p><strong>Correo:</strong> <span th:text="${alumno.DA_Correo}"></span></p>
+    <div class="container">
+        <div class="detail-header">
+            <h2>📋 Detalle del Alumno</h2>
+            <div class="btn-container">
+                <a th:href="@{/alumnos/editar/{id}(id=${alumno.id})}" class="btn btn-primary">✏️ Editar</a>
+                <a th:href="@{/alumnos}" class="btn btn-secondary">← Volver al listado</a>
+            </div>
+        </div>
 
-<a th:href="@{/alumnos}">Volver al listado</a>
-<a th:href="@{/alumnos/editar/{id}(id=${alumno.id})}">Editar</a>
+        <div class="detail-sections">
+            <!-- Información Básica -->
+            <div class="detail-section">
+                <h3>👤 Información Personal</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="label">ID:</span>
+                        <span class="value" th:text="${alumno.id}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Legajo:</span>
+                        <span class="value" th:text="${alumno.nroLeg}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Año Lectivo:</span>
+                        <span class="value" th:text="${alumno.ano_lec}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Nombre:</span>
+                        <span class="value" th:text="${alumno.DA_Nom}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Apellido:</span>
+                        <span class="value" th:text="${alumno.DA_Ape}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Sexo:</span>
+                        <span class="value" th:text="${alumno.DA_Sex}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Tipo de Documento:</span>
+                        <span class="value" th:text="${alumno.DA_TipDoc != null ? alumno.DA_TipDoc : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">DNI:</span>
+                        <span class="value" th:text="${alumno.dni}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Estado Civil:</span>
+                        <span class="value" th:text="${alumno.DA_EstCiv != null ? alumno.DA_EstCiv : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Fecha de Nacimiento:</span>
+                        <span class="value" th:text="${alumno.DA_FeNa != null ? #temporals.format(alumno.DA_FeNa, 'dd/MM/yyyy') : 'No especificada'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Edad:</span>
+                        <span class="value" th:text="${alumno.edad} + ' años'"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Lugar de Nacimiento:</span>
+                        <span class="value" th:text="${alumno.DA_LocNa != null ? alumno.DA_LocNa : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">País de Nacimiento:</span>
+                        <span class="value" th:text="${alumno.DA_PaisNa != null ? alumno.DA_PaisNa : 'No especificado'}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información Académica -->
+            <div class="detail-section">
+                <h3>🎓 Información Académica</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="label">Carrera:</span>
+                        <span class="value" th:text="${alumno.carrera != null ? alumno.carrera.nombre : 'Sin carrera asignada'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Año de Carrera:</span>
+                        <span class="value" th:text="${alumno.añoCarrera != null ? alumno.añoCarrera : 'No especificado'}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Domicilio -->
+            <div class="detail-section">
+                <h3>🏠 Domicilio</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="label">Calle:</span>
+                        <span class="value" th:text="${alumno.DA_DomCalle != null ? alumno.DA_DomCalle : 'No especificada'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Número:</span>
+                        <span class="value" th:text="${alumno.DA_DomNro != null ? alumno.DA_DomNro : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Piso:</span>
+                        <span class="value" th:text="${alumno.DA_DomPiso != null ? alumno.DA_DomPiso : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Departamento:</span>
+                        <span class="value" th:text="${alumno.DA_DomDpto != null ? alumno.DA_DomDpto : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Provincia:</span>
+                        <span class="value" th:text="${alumno.DA_Prov != null ? alumno.DA_Prov : 'No especificada'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Distrito:</span>
+                        <span class="value" th:text="${alumno.DA_Distri != null ? alumno.DA_Distri : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Localidad:</span>
+                        <span class="value" th:text="${alumno.DA_Loc != null ? alumno.DA_Loc : 'No especificada'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Código Postal:</span>
+                        <span class="value" th:text="${alumno.DA_CodPost != null ? alumno.DA_CodPost : 'No especificado'}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contacto -->
+            <div class="detail-section">
+                <h3>📞 Información de Contacto</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="label">Teléfono Fijo:</span>
+                        <span class="value" th:text="${alumno.DA_TelFij != null ? alumno.DA_TelFij : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Celular:</span>
+                        <span class="value" th:text="${alumno.DA_Cel != null ? alumno.DA_Cel : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Correo Electrónico:</span>
+                        <span class="value" th:text="${alumno.DA_Correo != null ? alumno.DA_Correo : 'No especificado'}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Título Secundario -->
+            <div class="detail-section">
+                <h3>🎓 Título Secundario</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="label">Posee Título Secundario:</span>
+                        <span class="value" th:text="${alumno.F_TitSec != null ? (alumno.F_TitSec ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.F_TitSec == true}">
+                        <span class="label">Título:</span>
+                        <span class="value" th:text="${alumno.F_TitSecSi_Titulo != null ? alumno.F_TitSecSi_Titulo : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.F_TitSec == true}">
+                        <span class="label">Orientación:</span>
+                        <span class="value" th:text="${alumno.F_TitSecSi_Orientacion != null ? alumno.F_TitSecSi_Orientacion : 'No especificada'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.F_TitSec == true}">
+                        <span class="label">Institución:</span>
+                        <span class="value" th:text="${alumno.F_TitSecSi_Otorga != null ? alumno.F_TitSecSi_Otorga : 'No especificada'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.F_TitSec == true}">
+                        <span class="label">Año de Egreso:</span>
+                        <span class="value" th:text="${alumno.F_TitSecSi_ano != null ? alumno.F_TitSecSi_ano : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.F_TitSec == true}">
+                        <span class="label">Promedio:</span>
+                        <span class="value" th:text="${alumno.F_TitSecSi_Promedio != null ? alumno.F_TitSecSi_Promedio : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.F_TitSec == true}">
+                        <span class="label">En Trámite:</span>
+                        <span class="value" th:text="${alumno.F_TitSecSi_Tramite != null ? (alumno.F_TitSecSi_Tramite ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.F_TitSec == false}">
+                        <span class="label">Observaciones:</span>
+                        <span class="value" th:text="${alumno.F_TitSecNo2 != null ? alumno.F_TitSecNo2 : 'Sin observaciones'}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información Laboral -->
+            <div class="detail-section">
+                <h3>💼 Información Laboral</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="label">Trabaja:</span>
+                        <span class="value" th:text="${alumno.trabaja != null ? (alumno.trabaja ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.trabaja == true}">
+                        <span class="label">Tipo de Trabajo:</span>
+                        <span class="value" th:text="${alumno.tra_list != null ? alumno.tra_list : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.trabaja == true}">
+                        <span class="label">Horario:</span>
+                        <span class="value" th:text="${alumno.tra_hor != null ? alumno.tra_hor : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.trabaja == true}">
+                        <span class="label">Persona Jurídica:</span>
+                        <span class="value" th:text="${alumno.tra_PeJu != null ? (alumno.tra_PeJu ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.trabaja == true}">
+                        <span class="label">Trabajo en Educación:</span>
+                        <span class="value" th:text="${alumno.tra_Edu != null ? alumno.tra_Edu : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.trabaja == true}">
+                        <span class="label">Desempeño en Educación:</span>
+                        <span class="value" th:text="${alumno.tra_Edu_Desempeno != null ? alumno.tra_Edu_Desempeno : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.trabaja == true}">
+                        <span class="label">Gestión en Educación:</span>
+                        <span class="value" th:text="${alumno.tra_Edu_Gestion != null ? alumno.tra_Edu_Gestion : 'No especificado'}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información Familiar -->
+            <div class="detail-section">
+                <h3>👨‍👩‍👧‍👦 Situación Familiar</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="label">Vive Solo:</span>
+                        <span class="value" th:text="${alumno.SF_Solo != null ? (alumno.SF_Solo ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.SF_Solo == false}">
+                        <span class="label">Con quién vive:</span>
+                        <span class="value" th:text="${alumno.SF_SoloNo != null ? alumno.SF_SoloNo : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Familia a Cargo:</span>
+                        <span class="value" th:text="${alumno.SF_FCargo != null ? (alumno.SF_FCargo ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.SF_FCargo == true}">
+                        <span class="label">Cantidad a Cargo:</span>
+                        <span class="value" th:text="${alumno.SF_FCargoSi != null ? alumno.SF_FCargoSi : 'No especificado'}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Becas y Planes -->
+            <div class="detail-section" th:if="${alumno.bePlPr != null or alumno.bePlPrOtro != null}">
+                <h3>💰 Becas y Planes</h3>
+                <div class="detail-grid">
+                    <div class="detail-item" th:if="${alumno.bePlPr != null}">
+                        <span class="label">Beca/Plan/Programa:</span>
+                        <span class="value" th:text="${alumno.bePlPr}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.bePlPrOtro != null}">
+                        <span class="label">Otro:</span>
+                        <span class="value" th:text="${alumno.bePlPrOtro}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prácticas Culturales -->
+            <div class="detail-section">
+                <h3>🎭 Prácticas Culturales</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="label">Radio:</span>
+                        <span class="value" th:text="${alumno.PCC_Radio != null ? (alumno.PCC_Radio ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Televisión:</span>
+                        <span class="value" th:text="${alumno.PCC_Tele != null ? (alumno.PCC_Tele ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Teatro:</span>
+                        <span class="value" th:text="${alumno.PCC_Teatro != null ? (alumno.PCC_Teatro ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Museos:</span>
+                        <span class="value" th:text="${alumno.PCC_Museo != null ? (alumno.PCC_Museo ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Conciertos:</span>
+                        <span class="value" th:text="${alumno.PCC_Conci != null ? (alumno.PCC_Conci ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Recitales:</span>
+                        <span class="value" th:text="${alumno.PCC_Recit != null ? (alumno.PCC_Recit ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Lectura Frecuente:</span>
+                        <span class="value" th:text="${alumno.PCC_LecFr != null ? (alumno.PCC_LecFr ? 'Sí' : 'No') : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.PCC_LecFr == true}">
+                        <span class="label">Tipo de Lectura:</span>
+                        <span class="value" th:text="${alumno.PCC_LecFrSi != null ? alumno.PCC_LecFrSi : 'No especificado'}"></span>
+                    </div>
+                    <div class="detail-item" th:if="${alumno.PCC_Otro != null}">
+                        <span class="label">Otras Prácticas:</span>
+                        <span class="value" th:text="${alumno.PCC_Otro}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

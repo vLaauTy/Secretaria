@@ -21,8 +21,15 @@
                     <input type="text" id="nombre" th:field="*{nombre}" required
                         placeholder="Ingrese el nombre de la carrera">
                 </div>
+
+                <div class="form-group full-width">
+                    <label for="abreviatura">abreviatura <span class="required">*</span></label>
+                    <input type="text" id="abreviatura" th:field="*{abreviatura}" required
+                        placeholder="Ingrese la abreviatura de la carrera">
+                </div>
                 <div class="form-group">
-                    <label for="cantidadMaterias">Cantidad de Materias en la Carrera <span class="required">*</span></label>
+                    <label for="cantidadMaterias">Cantidad de Materias en la Carrera <span
+                            class="required">*</span></label>
                     <input type="number" id="cantidadMaterias" th:field="*{cantidadMaterias}" required min="1"
                         placeholder="Cantidad de Materias">
                 </div>
@@ -38,7 +45,11 @@
                     <label for="fechaAlta">Fecha de Alta <span class="required">*</span></label>
                     <input type="date" id="fechaAlta" th:field="*{fechaAlta}" required>
                 </div>
+
+
             </div>
+
+
 
             <div class="btn-container">
                 <button type="submit" class="btn btn-primary">Guardar Carrera</button>

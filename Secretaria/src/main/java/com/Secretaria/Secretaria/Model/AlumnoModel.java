@@ -1,12 +1,12 @@
 package com.Secretaria.Secretaria.Model;
+
 import java.time.LocalDate;
 import java.time.Period;
 
 import jakarta.persistence.*;
 
-
 @Entity
-@Table(name ="alumnos")
+@Table(name = "alumnos")
 public class AlumnoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,12 +15,16 @@ public class AlumnoModel {
     @Column(nullable = false)
     private int ano_lec;
 
-    @Column( nullable = false)
+    @Column(nullable = false)
     private int nroLeg;
 
-    @Column( nullable = false)
-    private Integer carrera;
+    // Relación ManyToOne con CarreraModel
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "carrera_id")
+    private CarreraModel carrera;
 
+    @Column(length = 5)
+    private String añoCarrera;
     @Column(length = 10)
     private String DA_TipDoc;
 
@@ -184,12 +188,20 @@ public class AlumnoModel {
         this.nroLeg = nroLeg;
     }
 
-    public Integer getCarrera() {
+    public CarreraModel getCarrera() {
         return carrera;
     }
 
-    public void setCarrera(Integer carrera) {
+    public void setCarrera(CarreraModel carrera) {
         this.carrera = carrera;
+    }
+
+    public String getAñoCarrera() {
+        return añoCarrera;
+    }
+
+    public void setAñoCarrera(String añoCarrera) {
+        this.añoCarrera = añoCarrera;
     }
 
     public String getDA_TipDoc() {
@@ -602,7 +614,7 @@ public class AlumnoModel {
 
     public int getEdad() {
         if (DA_FeNa == null) {
-        return 0;
+            return 0;
         }
         return Period.between(DA_FeNa, LocalDate.now()).getYears();
     }
