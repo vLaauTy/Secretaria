@@ -1,61 +1,67 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-<head>
-    <meta charset="UTF-8">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <head>
+    <meta charset="UTF-8" />
     <title>Menú Principal</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
 
-<body>
-
+  <body>
     <nav class="navbar">
-        <div class="navbar-logo">Instituto</div>
-        <div class="navbar-links">
-            <a href="/">Inicio</a>
-            <a href="/alumnos">Alumnos</a>
-            <a href="/profesores">Profesores</a>
-            <a href="/materias">Materias</a>
-            <a href="/carreras">Carreras</a>
-            <a href="/logout">Cerrar sesión</a>
-        </div>
+      <div class="navbar-logo">Instituto</div>
+      <div class="navbar-links">
+        <a href="/">Inicio</a>
+        <a href="/alumnos">Alumnos</a>
+        <a href="/profesores">Profesores</a>
+        <a href="/materias">Materias</a>
+        <a href="/carreras">Carreras</a>
+        <a href="/logout">Cerrar sesión</a>
+      </div>
     </nav>
 
     <div class="container">
-        <h2>Bienvenida Secretaria 👋</h2>
-        <p>Seleccioná una sección para comenzar a gestionar:</p>
+      <h2>Bienvenida Secretaria 👋</h2>
+      <p>Seleccioná una sección para comenzar a gestionar:</p>
 
-        <div class="menu-cards">
-            <div class="menu-card">
-                <div class="card-icon">👨‍🎓</div>
-                <h3>Alumnos</h3>
-                <p>Gestionar estudiantes del instituto</p>
-                <a href="/alumnos" class="card-btn">Acceder</a>
-            </div>
-
-            <div class="menu-card">
-                <div class="card-icon">👨‍🏫</div>
-                <h3>Profesores</h3>
-                <p>Administrar docentes y asignaciones</p>
-                <a href="/menuprofesor" class="card-btn">Acceder</a>
-            </div>
-
-            <div class="menu-card">
-                <div class="card-icon">📚</div>
-                <h3>Materias</h3>
-                <p>Configurar asignaturas y contenidos</p>
-                <a href="/materias" class="card-btn">Acceder</a>
-            </div>
-
-            <div class="menu-card">
-                <div class="card-icon">🎓</div>
-                <h3>Carreras</h3>
-                <p>Administrar planes de estudio</p>
-                <a href="/carreras" class="card-btn">Acceder</a>
-            </div>
+      <div class="menu-cards">
+        <div class="menu-card">
+          <div class="card-icon">👨‍🎓</div>
+          <h3>Alumnos</h3>
+          <p>Gestionar estudiantes del instituto</p>
+          <a href="/alumnos" class="card-btn">Acceder</a>
         </div>
+
+        <div class="menu-card">
+          <div class="card-icon">👨‍🏫</div>
+          <h3>Profesores</h3>
+          <p>Administrar docentes y asignaciones</p>
+          <a href="/menuprofesor" class="card-btn">Acceder</a>
+        </div>
+
+        <div class="menu-card">
+          <div class="card-icon">📚</div>
+          <h3>Materias</h3>
+          <p>Configurar asignaturas y contenidos</p>
+          <a href="/materias" class="card-btn">Acceder</a>
+        </div>
+
+        <div class="menu-card">
+          <div class="card-icon">🎓</div>
+          <h3>Carreras</h3>
+          <p>Administrar planes de estudio</p>
+          <a href="/carreras" class="card-btn">Acceder</a>
+        </div>
+
+        <div class="menu-card">
+          <div class="card-icon">📂</div>
+          <h3>Documentos</h3>
+          <p>Administrar mis documentos</p>
+          <a th:href="@{/documentos/listar}" class="card-btn">Acceder</a>
+        </div>
+      </div>
     </div>
-
-</body>
-
+  </body>
 </html>

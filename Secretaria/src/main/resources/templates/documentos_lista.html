@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lista de Documentos</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-logo">Instituto</div>
+      <div class="navbar-links">
+        <a href="/">Inicio</a>
+        <a href="/alumnos">Alumnos</a>
+        <a href="/profesores">Profesores</a>
+        <a href="/materias">Materias</a>
+        <a href="/carreras">Carreras</a>
+        <a href="/logout">Cerrar sesión</a>
+      </div>
+    </nav>
+    <div class="container">
+      <h1>📂 Documentos Subidos</h1>
+
+      <form
+        th:action="@{/documentos/subir}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input type="file" name="archivo" required />
+        <button type="submit">Subir</button>
+      </form>
+
+      <p th:if="${mensaje}" th:text="${mensaje}" style="color: green"></p>
+      <p th:if="${error}" th:text="${error}" style="color: red"></p>
+
+      <h2>Archivos:</h2>
+      <ul>
+        <li th:each="doc : ${documentos}">
+          <strong th:text="${doc.nombre}"></strong> -
+          <a th:href="${doc.url}" target="_blank">Ver</a> |
+          <a th:href="${doc.url}" download>Descargar</a> |
+          <a
+            th:href="@{'/documentos/eliminar/' + ${doc.id}}"
+            onclick="return confirm('¿Seguro que querés eliminar este documento?')"
+          >
+            🗑️ Eliminar
+          </a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
