@@ -7,4 +7,5 @@ import com.Secretaria.Secretaria.Model.Ubicacion;
 
 @Repository
 public interface UbicacionRepository extends JpaRepository<Ubicacion, Long> {
+
 }

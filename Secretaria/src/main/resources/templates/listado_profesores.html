@@ -27,12 +27,11 @@
     <!-- Filtros -->
     <div class="filtros-container">
       <form method="get" action="/profesores">
-        <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+        <div class="flex align-center gap-15 flex-wrap">
           <!-- Filtro por sexo -->
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <label for="filtroSexo" style="font-weight: bold; color: #333;">Sexo:</label>
-            <select id="filtroSexo" name="sexo"
-              style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; min-width: 120px;">
+          <div class="flex align-center gap-8">
+            <label for="filtroSexo">Sexo:</label>
+            <select id="filtroSexo" name="sexo" class="minw-120">
               <option value="" th:selected="${param.sexo == null or param.sexo == ''}">Cualquiera</option>
               <option value="Hombre" th:selected="${param.sexo == 'Hombre'}">Hombre</option>
               <option value="Mujer" th:selected="${param.sexo == 'Mujer'}">Mujer</option>
@@ -40,26 +39,24 @@
           </div>
 
           <!-- Filtro por edad -->
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <label style="font-weight: bold; color: #333;">Edad:</label>
-            <input type="number" name="edadMin" placeholder="Mín" min="18" max="100" th:value="${param.edadMin}"
-              style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 70px;">
-            <span style="color: #666;">-</span>
-            <input type="number" name="edadMax" placeholder="Máx" min="18" max="100" th:value="${param.edadMax}"
-              style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 70px;">
-            <span style="color: #666; font-size: 12px;">años</span>
+          <div class="flex align-center gap-8">
+            <label>Edad:</label>
+            <input type="number" name="edadMin" placeholder="Mín" min="18" max="100" th:value="${param.edadMin}" class="w-70">
+            <span class="text-muted">-</span>
+            <input type="number" name="edadMax" placeholder="Máx" min="18" max="100" th:value="${param.edadMax}" class="w-70">
+            <span class="text-muted small">años</span>
           </div>
 
           <!-- Filtro por DNI -->
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <label for="filtroDni" style="font-weight: bold; color: #333;">DNI:</label>
+          <div class="flex align-center gap-8">
+            <label for="filtroDni">DNI:</label>
             <input type="text" id="filtroDni" name="dni" placeholder="Buscar por DNI" th:value="${param.dni}"
-              style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; min-width: 150px;" maxlength="8"
+              class="minw-150" maxlength="8"
               pattern="[0-9]*" title="Ingrese números del DNI">
           </div>
 
           <!-- Botones -->
-          <div style="display: flex; gap: 8px;">
+          <div class="flex gap-8">
             <button type="submit" class="btn btn-ver">🔍 Filtrar</button>
             <a href="/profesores" class="btn btn-ver">🔄 Limpiar</a>
           </div>
@@ -75,25 +72,22 @@
     <!-- Tabla de profesores -->
     <div th:if="${profesores != null and not #lists.isEmpty(profesores)}">
       <!-- Contador de resultados -->
-      <div style="margin-bottom: 15px; color: #6c757d; font-style: italic;">
+      <div class="results-summary">
         <span th:text="'Mostrando ' + ${#lists.size(profesores)} + ' profesor(es) encontrado(s)'"></span>
         <span
           th:if="${not #strings.isEmpty(param.sexo) or not #strings.isEmpty(param.edadMin) or not #strings.isEmpty(param.edadMax) or not #strings.isEmpty(param.dni)}"
-          style="color: #666; font-size: 14px; margin-left: 10px;">
+          class="filters-active">
           | Filtros activos:
-          <span th:if="${not #strings.isEmpty(param.sexo)}"
-            style="background: #e3f2fd; padding: 2px 6px; border-radius: 3px; margin: 0 2px;">
+          <span th:if="${not #strings.isEmpty(param.sexo)}" class="badge badge-blue">
             Sexo: [[${param.sexo}]]
           </span>
-          <span th:if="${not #strings.isEmpty(param.edadMin) or not #strings.isEmpty(param.edadMax)}"
-            style="background: #f3e5f5; padding: 2px 6px; border-radius: 3px; margin: 0 2px;">
+          <span th:if="${not #strings.isEmpty(param.edadMin) or not #strings.isEmpty(param.edadMax)}" class="badge badge-purple">
             Edad:
             <span th:if="${not #strings.isEmpty(param.edadMin)}">[[${param.edadMin}]]</span>
             <span th:if="${not #strings.isEmpty(param.edadMin) and not #strings.isEmpty(param.edadMax)}">-</span>
             <span th:if="${not #strings.isEmpty(param.edadMax)}">[[${param.edadMax}]]</span> años
           </span>
-          <span th:if="${not #strings.isEmpty(param.dni)}"
-            style="background: #e8f5e8; padding: 2px 6px; border-radius: 3px; margin: 0 2px;">
+          <span th:if="${not #strings.isEmpty(param.dni)}" class="badge badge-green">
             DNI: [[${param.dni}]]
           </span>
         </span>

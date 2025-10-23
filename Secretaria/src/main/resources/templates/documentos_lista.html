@@ -24,25 +24,25 @@
         th:action="@{/documentos/subir}"
         method="post"
         enctype="multipart/form-data"
-        style="margin-bottom: 12px;"
+        class="mb-12"
       >
-        <label style="display:block; font-weight:600; margin-bottom:6px;">Seleccionar Archivo</label>
+        <label>Seleccionar Archivo</label>
         <input type="file" name="archivo" required />
         <button type="submit">Subir</button>
       </form>
 
-      <form th:action="@{/documentos/agregar-ubicacion}" method="post" style="display:flex; gap:8px; align-items:center; margin-bottom: 20px; flex-wrap: wrap;">
-        <label style="font-weight:600; margin-right:6px;">Ubicación física:</label>
-        <input type="text" name="titulo" placeholder="Título (ej: Matemática - Tomo I)" required style="flex:1; min-width:240px;"/>
-        <input type="text" name="direccion" placeholder="Dirección (ej: Estantería B, Fila 3, Sector A)" required style="flex:2; min-width:320px;"/>
+      <form th:action="@{/documentos/agregar-ubicacion}" method="post" class="flex gap-8 align-center flex-wrap mb-20">
+        <label class="mr-6">Ubicación física:</label>
+        <input type="text" name="titulo" placeholder="Título (ej: Matemática - Tomo I)" required class="flex-1 minw-240"/>
+        <input type="text" name="direccion" placeholder="Dirección (ej: Estantería B, Fila 3, Sector A)" required class="flex-2 minw-320"/>
         <button type="submit">Subir</button>
       </form>
 
-      <p th:if="${mensaje}" th:text="${mensaje}" style="color: green"></p>
-      <p th:if="${error}" th:text="${error}" style="color: red"></p>
+      <p th:if="${mensaje}" th:text="${mensaje}" class="text-success"></p>
+      <p th:if="${error}" th:text="${error}" class="text-danger"></p>
 
-      <div style="display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap; margin-top: 16px;">
-        <div style="flex:1 1 360px; min-width:320px;">
+      <div class="flex gap-24 align-start flex-wrap mt-16">
+        <div class="col-360">
           <h2>Archivos</h2>
           <ul>
             <li th:each="doc : ${documentos}">
@@ -57,10 +57,10 @@
                 onclick="return confirm('¿Seguro que querés eliminar este documento?')"
               >🗑️ Eliminar</a>
             </li>
-            <li th:if="${documentos == null or #lists.isEmpty(documentos)}" style="color:#666;">No hay archivos cargados.</li>
+            <li th:if="${documentos == null or #lists.isEmpty(documentos)}" class="text-muted">No hay archivos cargados.</li>
           </ul>
         </div>
-        <div style="flex:1 1 360px; min-width:320px;">
+        <div class="col-360">
           <h2>Ubicaciones</h2>
           <ul>
             <li th:each="u : ${ubicaciones}">
@@ -74,7 +74,7 @@
                 onclick="return confirm('¿Seguro que querés eliminar esta ubicación?')"
               >🗑️ Eliminar</a>
             </li>
-            <li th:if="${ubicaciones == null or #lists.isEmpty(ubicaciones)}" style="color:#666;">No hay ubicaciones cargadas.</li>
+            <li th:if="${ubicaciones == null or #lists.isEmpty(ubicaciones)}" class="text-muted">No hay ubicaciones cargadas.</li>
           </ul>
         </div>
       </div>

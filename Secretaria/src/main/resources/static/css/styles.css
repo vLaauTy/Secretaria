@@ -145,6 +145,19 @@ input[type="date"] {
     font-size: 14px;
 }
 
+/* Inputs adicionales y selects */
+input[type="number"],
+input[type="tel"],
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #fff;
+}
+
 input[type="submit"] {
     background-color: #1e90ff;
     color: white;
@@ -404,3 +417,60 @@ a.btn {
 .detail-item .value {
     color: #333;
 }
+
+/* Utilidades y helpers */
+.required { color: red; }
+
+/* Secciones y grupos de formulario */
+.form-section { 
+    margin: 20px 0; 
+    padding: 15px; 
+    border: 1px solid #ddd; 
+    background: #f9f9f9; 
+}
+.form-section h2 { 
+    color: #333; 
+    margin-bottom: 15px; 
+}
+.form-group { margin: 10px 0; }
+.form-group label { display: inline-block; width: 150px; font-weight: bold; }
+.radio-group { display: inline-block; margin: 0 10px; }
+
+/* Flex helpers */
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+.align-center { align-items: center; }
+.align-start { align-items: flex-start; }
+.gap-8 { gap: 8px; }
+.gap-15 { gap: 15px; }
+.gap-24 { gap: 24px; }
+.mt-16 { margin-top: 16px; }
+.mb-12 { margin-bottom: 12px; }
+.mb-20 { margin-bottom: 20px; }
+.mr-6 { margin-right: 6px; }
+.flex-1 { flex: 1 1 0; }
+.flex-2 { flex: 2 1 0; }
+.minw-120 { min-width: 120px; }
+.minw-150 { min-width: 150px; }
+.minw-240 { min-width: 240px; }
+.minw-320 { min-width: 320px; }
+.w-70 { width: 70px; }
+
+/* Layout columnas responsive */
+.col-360 { flex: 1 1 360px; min-width: 320px; }
+
+/* Texto */
+.text-success { color: green; }
+.text-danger { color: red; }
+.text-muted { color: #666; }
+.small { font-size: 12px; }
+
+/* Resumen y filtros activos */
+.results-summary { margin-bottom: 15px; color: #6c757d; font-style: italic; }
+.filters-active { color: #666; font-size: 14px; margin-left: 10px; }
+
+/* Badges para filtros */
+.badge { padding: 2px 6px; border-radius: 3px; margin: 0 2px; display: inline-block; }
+.badge-blue { background: #e3f2fd; }
+.badge-purple { background: #f3e5f5; }
+.badge-green { background: #e8f5e8; }
