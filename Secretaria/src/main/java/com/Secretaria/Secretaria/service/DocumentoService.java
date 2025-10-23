@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import com.Secretaria.Secretaria.config.StorageProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,8 +19,8 @@ import com.Secretaria.Secretaria.repository.DocumentoRepository;
 @Service
 public class DocumentoService {
 
-    @Value("${upload.dir}")
-    private String uploadDir;
+    @Autowired
+    private StorageProperties storageProperties;
 
     @Autowired
     private DocumentoRepository documentoRepository;
@@ -31,7 +31,7 @@ public class DocumentoService {
         }
 
         // ✅ Crear la carpeta si no existe
-        Path directorio = Paths.get(uploadDir);
+    Path directorio = Paths.get(storageProperties.getDir());
         if (!Files.exists(directorio)) {
             Files.createDirectories(directorio);
         }
@@ -47,7 +47,7 @@ public class DocumentoService {
         Documento doc = new Documento();
         doc.setNombre(archivo.getOriginalFilename());
         doc.setTipo(archivo.getContentType());
-        doc.setUrl("/uploads/" + nombreArchivo);
+    doc.setUrl("/uploads/" + nombreArchivo);
         doc.setEsUbicacion(false);
 
         return documentoRepository.save(doc);
@@ -80,7 +80,7 @@ public class DocumentoService {
 
             // 📂 Si es un archivo físico, intentamos borrar el archivo del disco
             if (!doc.isEsUbicacion() && doc.getUrl() != null && doc.getUrl().startsWith("/uploads/")) {
-                Path ruta = Paths.get(uploadDir).resolve(
+        Path ruta = Paths.get(storageProperties.getDir()).resolve(
                         doc.getUrl().replace("/uploads/", ""));
                 if (Files.exists(ruta)) {
                     Files.delete(ruta);
