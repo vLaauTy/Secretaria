@@ -58,9 +58,10 @@ public class SecurityConfig {
                                                                                                                  // recursos
                                                                                                                  // estáticos
                         .anyRequest().authenticated()) // Requiere autenticación para todas las demás rutas
-                .formLogin(form -> form
-                        .loginPage("/login") // Página personalizada de inicio de sesión
-                        .permitAll())
+        .formLogin(form -> form
+            .loginPage("/login") // Página personalizada de inicio de sesión
+            .failureUrl("/login?error") // Al fallar, agrega ?error para mostrar mensaje
+            .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout") // URL para cerrar sesión
                         .logoutSuccessUrl("/login?logout") // Redirige al login después del logout

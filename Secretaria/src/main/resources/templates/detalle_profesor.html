@@ -21,7 +21,7 @@
     </nav>
     <div class="container">
         <h2>Detalle del Profesor</h2>
-        
+
         <!-- Mensajes de éxito o error -->
         <div th:if="${successMessage}" class="alert alert-success">
             <p th:text="${successMessage}"></p>
@@ -29,7 +29,7 @@
         <div th:if="${errorMessage}" class="alert alert-danger">
             <p th:text="${errorMessage}"></p>
         </div>
-        
+
         <div th:if="${profesor != null}">
             <ul class="detalle-list">
                 <li><strong>Nombre:</strong> <span th:text="${profesor.nombre}"></span></li>
@@ -45,7 +45,7 @@
                 <li><strong>Piso:</strong> <span th:text="${profesor.piso}"></span></li>
                 <li><strong>Código Postal:</strong> <span th:text="${profesor.codigoPostal}"></span></li>
                 <li><strong>Localidad:</strong> <span th:text="${profesor.localidad}"></span></li>
-                <li><strong>Partida:</strong> <span th:text="${profesor.partida}"></span></li>
+                <li><strong>Partido:</strong> <span th:text="${profesor.partida}"></span></li>
                 <li><strong>Foja:</strong> <span th:text="${profesor.foja}"></span></li>
                 <li><strong>CertificadoAF:</strong> <span th:text="${profesor.certificadoAF}"></span></li>
                 <li><strong>Lugar de Nacimiento:</strong> <span th:text="${profesor.lugarNacimiento}"></span></li>
@@ -74,15 +74,14 @@
                         <tr th:each="materia : ${profesor.materias}">
                             <td th:text="${materia.nombre}"></td>
                             <td th:text="${materia.anio}"></td>
-                            <td th:text="${materia.carrera != null ? materia.carrera : 'Sin asignar'}"></td>
+                            <td th:text="${materia.carrera != null ? materia.carrera.nombre : 'Sin asignar'}"></td>
                             <td th:text="${materia.cargaHoraria}"></td>
                             <td th:text="${materia.horaTotal}"></td>
                             <td th:text="${materia.fechaAlta}"></td>
                             <td>
-                                <a th:href="@{/profesores/{profesorId}/eliminar-materia/{materiaId}(profesorId=${profesor.id}, materiaId=${materia.id})}" 
-                                   class="btn btn-eliminar" 
-                                   title="Eliminar materia del profesor"
-                                   onclick="return confirm('¿Está seguro de que desea quitar esta materia del profesor?')">
+                                <a th:href="@{/profesores/{profesorId}/eliminar-materia/{materiaId}(profesorId=${profesor.id}, materiaId=${materia.id})}"
+                                    class="btn btn-eliminar" title="Eliminar materia del profesor"
+                                    onclick="return confirm('¿Está seguro de que desea quitar esta materia del profesor?')">
                                     🗑️ Quitar
                                 </a>
                             </td>

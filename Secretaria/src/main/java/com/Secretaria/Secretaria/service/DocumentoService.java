@@ -48,7 +48,18 @@ public class DocumentoService {
         doc.setNombre(archivo.getOriginalFilename());
         doc.setTipo(archivo.getContentType());
         doc.setUrl("/uploads/" + nombreArchivo);
+        doc.setEsUbicacion(false);
 
+        return documentoRepository.save(doc);
+    }
+
+    public Documento guardarUbicacion(String titulo, String direccion) {
+        Documento doc = new Documento();
+        doc.setNombre(titulo);
+        doc.setTipo("UBICACION");
+        doc.setDireccion(direccion);
+        doc.setEsUbicacion(true);
+        doc.setUrl(null);
         return documentoRepository.save(doc);
     }
 
@@ -67,13 +78,13 @@ public class DocumentoService {
         if (documentoOpt.isPresent()) {
             Documento doc = documentoOpt.get();
 
-            // 📂 Ruta del archivo físico
-            Path ruta = Paths.get(uploadDir).resolve(
-                    doc.getUrl().replace("/uploads/", ""));
-
-            // 🗑️ Eliminar el archivo del disco
-            if (Files.exists(ruta)) {
-                Files.delete(ruta);
+            // 📂 Si es un archivo físico, intentamos borrar el archivo del disco
+            if (!doc.isEsUbicacion() && doc.getUrl() != null && doc.getUrl().startsWith("/uploads/")) {
+                Path ruta = Paths.get(uploadDir).resolve(
+                        doc.getUrl().replace("/uploads/", ""));
+                if (Files.exists(ruta)) {
+                    Files.delete(ruta);
+                }
             }
 
             // 🗃️ Eliminar de la base de datos

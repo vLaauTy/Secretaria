@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.Secretaria.Secretaria.Model.Documento;
 import com.Secretaria.Secretaria.service.DocumentoService;
+import com.Secretaria.Secretaria.service.UbicacionService;
 
 @Controller
 @RequestMapping("/documentos")
@@ -21,6 +22,9 @@ public class DocumentoController {
 
     @Autowired
     private DocumentoService documentoService;
+
+    @Autowired
+    private UbicacionService ubicacionService;
 
     @PostMapping("/subir")
     public String subirDocumento(@RequestParam("archivo") MultipartFile archivo, Model model) {
@@ -33,10 +37,31 @@ public class DocumentoController {
         return "redirect:/documentos/listar";
     }
 
+    @PostMapping("/agregar-ubicacion")
+    public String agregarUbicacion(@RequestParam("titulo") String titulo,
+                                   @RequestParam("direccion") String direccion,
+                                   Model model) {
+        if (titulo == null || titulo.isBlank() || direccion == null || direccion.isBlank()) {
+            model.addAttribute("error", "Título y dirección son obligatorios");
+            return "redirect:/documentos/listar";
+        }
+        ubicacionService.guardarUbicacion(titulo.trim(), direccion.trim());
+        model.addAttribute("mensaje", "Ubicación agregada correctamente");
+        return "redirect:/documentos/listar";
+    }
+
     @GetMapping("/listar")
     public String listarDocumentos(Model model) {
         model.addAttribute("documentos", documentoService.listarDocumentos());
+        model.addAttribute("ubicaciones", ubicacionService.listarUbicaciones());
         return "documentos_lista";
+    }
+
+    @GetMapping("/eliminar-ubicacion/{id}")
+    public String eliminarUbicacion(@PathVariable Long id, Model model) {
+        ubicacionService.eliminarUbicacion(id);
+        model.addAttribute("mensaje", "Ubicación eliminada correctamente");
+        return "redirect:/documentos/listar";
     }
 
     @GetMapping("/eliminar/{id}")
